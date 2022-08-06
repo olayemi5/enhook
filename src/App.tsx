@@ -6,6 +6,7 @@ import {
   Link
 } from "react-router-dom";
 import MainLayout from './components/layout/MainLayout';
+import Authentication from './pages/Authentication';
 import Homepage from "./pages/Homepage"
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
       <MainLayout>
           <Routes>
               <Route element={<Homepage />} path='/' />
+              <Route element={<Authentication />} path='/auth' />
           </Routes>
       </MainLayout>
     </Router>
