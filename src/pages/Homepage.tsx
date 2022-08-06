@@ -1,4 +1,5 @@
 import React from "react";
+import FooterLayout from "../components/layout/FooterLayout";
 
 function Homepage () {
     return (
@@ -195,6 +196,7 @@ function Homepage () {
             <div className="shape9"><img src={require("../assets/images/shape/shape9.png")} alt="image" /></div>
             <div className="shape15"><img src={require("../assets/images/shape/shape15.png")} alt="image" /></div>
             </div>
+            <FooterLayout />
         </section>
     )
 }
