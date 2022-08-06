@@ -2,7 +2,6 @@ import axios from "axios";
 import { ConsumerCreateDto } from "./Models/ConsumerCreateDto";
 
 const BASE_URL = process.env.AFF_BASE_URL;
-const ClientId = process.env.Client_ID;
 const userName = window.localStorage.getItem('username');
 const userId = window.localStorage.getItem('userId');
 const token = window.localStorage.getItem('accessToken');
@@ -10,8 +9,8 @@ const token = window.localStorage.getItem('accessToken');
 const controllerName = "Notification";
 
 const header = {
-    
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'ClientId' : 'c9166ae6d644aa43bc3ddae4c5969300'
 }
 
 const AddConsumer = async ( consumerCreateDto: ConsumerCreateDto) => {
