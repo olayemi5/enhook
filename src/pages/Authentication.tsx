@@ -59,14 +59,14 @@ function Authentication () {
                                         <h2>Register</h2>
                                         <form>
                                             <div className="form-group"><input type="text" className="form-control"
-                                                    placeholder="Full Name" /></div>
-                                            <div className="form-group"><input type="email" className="form-control"
-                                                    placeholder="Email Address" /></div>
+                                                    placeholder="Account Number" /></div>
+                                            <div className="form-group"><input type="text" className="form-control"
+                                                    placeholder="BVN" /></div>
+                                            <div className="form-group"><input type="text" className="form-control"
+                                            placeholder="NIN" /></div>
                                             <div className="form-group"><input type="password" className="form-control"
                                                     placeholder="Password" /></div>
-                                            <div className="form-group"><input type="password" className="form-control"
-                                                    placeholder="Confirm Password" /></div><button
-                                                type="submit">Register</button>
+                                            <button type="submit">Register</button>
                                         </form>
                                         <div className="register-with-button"><button type="button">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
