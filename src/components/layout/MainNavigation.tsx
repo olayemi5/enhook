@@ -26,7 +26,7 @@ function MainNavigation () {
                 </div>
             </div>
             <nav className="navbar navbar-expand-md navbar-light hide-menu">
-                <div className="container"><Link className="navbar-brand" to={'/'}><b><span style={{color:"#05294d"}}>EN</span><span style={{color:"#24588c", fontSize:"30px"}}>HOOK</span></b></Link>
+                <div className="container"><Link className="navbar-brand" to={'/'}><b><span style={{color:"#05294d", fontSize:"30px"}}>e</span><span style={{color:"#24588c", fontSize:"30px"}}>NAIRA</span></b></Link>
                 <div className="collapse navbar-collapse mean-menu">
                     <ul className="navbar-nav">
                     <li className="nav-item"><Link to={'/'} className="nav-link">Home</Link>

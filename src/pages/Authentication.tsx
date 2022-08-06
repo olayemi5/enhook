@@ -1,7 +1,8 @@
 
 import React, { useRef, useState } from "react"
 import { Link } from "react-router-dom";
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import { v4 as uuidv4 } from 'uuid';
 import { AddConsumerData } from "../services/auth/AuthenticationResource";
 import { ConsumerCreateDto } from "../services/auth/Models/ConsumerCreateDto";
 
@@ -16,7 +17,8 @@ function Authentication () {
     const bvn = useRef<HTMLInputElement>(null);
     const nin = useRef<HTMLInputElement>(null);
     const password = useRef<HTMLInputElement>(null);
-    
+    let [reference, setReference] = useState(343)
+
     const AddConsumer = (event: React.ChangeEvent<HTMLFormElement>) => {
         event.preventDefault();
         setIsLoading(true);
@@ -26,12 +28,10 @@ function Authentication () {
             bvn : bvn?.current?.value,
             nin : nin?.current?.value,
             password : password?.current?.value,
-            channel_code : "NEXTGEN",
+            channel_code : "AFFGEN",
             customer_tier : "2",
-            reference : "NXG34567898FGHJJB1"
+            reference : `BSC34567898FGHJJB1`
         }
-
-        console.log(consumerDetails);
 
         AddConsumerData(consumerDetails)
         .then((response) => {
@@ -42,7 +42,7 @@ function Authentication () {
                 icon: 'info',
                 confirmButtonText: 'Ok'
             })
-
+            setReference( reference + 1 );
             setIsLoading(false);
         })
         .catch(err => {
@@ -114,9 +114,9 @@ function Authentication () {
                                                     placeholder="Account Number" /></div>
                                             <div className="form-group"><input required ref={bvn} type="text" className="form-control"
                                                     placeholder="BVN" /></div>
-                                            <div className="form-group"><input required  ref={nin} type="text" className="form-control"
+                                            <div className="form-group"><input ref={nin} type="text" className="form-control"
                                                 placeholder="NIN" /></div>
-                                            <div ref={password} className="form-group"><input type="password" className="form-control"
+                                            <div  className="form-group"><input required type="password" ref={password} className="form-control"
                                                     placeholder="Password" /></div>
                                             { isLoading ? <section>
                                                 <button disabled >Processing...</button>
