@@ -1,6 +1,8 @@
 
 import React, { useRef, useState } from "react"
 import { Link } from "react-router-dom";
+import Swal from 'sweetalert2'
+import { AddConsumerData } from "../services/auth/AuthenticationResource";
 import { ConsumerCreateDto } from "../services/auth/Models/ConsumerCreateDto";
 
 function Authentication () {
@@ -27,6 +29,27 @@ function Authentication () {
             customer_tier : "2",
             reference : "NXG34567898FGHJJB1"
         }
+
+        AddConsumerData(consumerDetails)
+        .then((response) => {
+            const message = response.data;
+            Swal.fire({
+                title: 'Success!',
+                text: `${message.response_message}`,
+                icon: 'success',
+                confirmButtonText: 'Ok'
+            })
+        })
+        .catch(err => {
+            console.log(err.moreInformation);
+            Swal.fire({
+                title: 'Error!',
+                text: `${err.moreInformation}`,
+                icon: 'error',
+                confirmButtonText: 'Cancel'
+            })
+        });
+       
     }
 
     return (

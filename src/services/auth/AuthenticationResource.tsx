@@ -13,7 +13,7 @@ const header = {
     'ClientId' : 'c9166ae6d644aa43bc3ddae4c5969300'
 }
 
-const AddConsumer = async ( consumerCreateDto: ConsumerCreateDto) => {
+const AddConsumerData = async ( consumerCreateDto: ConsumerCreateDto) => {
      const response = await axios({
         method : "POST",
         url: `BASE_URL`,
@@ -23,3 +23,5 @@ const AddConsumer = async ( consumerCreateDto: ConsumerCreateDto) => {
 
     return response;
 }
+
+export { AddConsumerData } 
