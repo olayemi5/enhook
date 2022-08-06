@@ -1,7 +1,11 @@
 
 import React from "react"
+import { Link } from "react-router-dom";
 
 function Authentication () {
+
+    window.localStorage.setItem('currentPage', "Auth");
+
     return (
         <section>
              <div className="profile-authentication-area">
@@ -91,7 +95,7 @@ function Authentication () {
                     </div>
                 </div>
                 
-                <a className="back-icon" href="/"><i className="bx bx-x"></i></a>
+                <Link className="back-icon" to="/"><i className="fa fa-times"></i></Link>
             </div>
         </section>
     )

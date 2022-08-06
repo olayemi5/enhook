@@ -44,15 +44,18 @@ function MainNavigation () {
                     <div className="others-option">
                         <div className="d-flex align-items-center">
 
-                            {   window.localStorage.getItem('username') === "" || window.localStorage.getItem('username') === null
+                            {   
+                                window.localStorage.getItem('username') === "" || window.localStorage.getItem('username') === null
                                 ?  <section>
-                                    <div className="option-item"><a className="login-btn" href="/"><i
-                                        className="fa fa-sign-in"></i> Authenticate</a></div>
+                                        <div className="option-item"><Link className="login-btn" to="/auth"><i
+                                            className="fa fa-sign-in"></i> Authenticate</Link>
+                                        </div>
                                     </section>
                                 : <section>
                                         <div className="option-item"><a className="login-btn" href="/"><i
-                                        className="fa fa-sign-out"></i> Log out</a></div>
-                                </section>
+                                            className="fa fa-sign-out"></i> Log out</a>
+                                        </div>
+                                    </section>
                             }
 
                             <div className="option-item"><a className="default-btn" href="https://novis-ts.envytheme.com/contact/"><i
