@@ -6,6 +6,10 @@ function Authentication () {
 
     window.localStorage.setItem('currentPage', "Auth");
 
+    const AddConsumer = () => {
+        
+    }
+
     return (
         <section>
              <div className="profile-authentication-area">
@@ -66,7 +70,7 @@ function Authentication () {
                                             placeholder="NIN" /></div>
                                             <div className="form-group"><input type="password" className="form-control"
                                                     placeholder="Password" /></div>
-                                            <button type="submit">Register</button>
+                                            <button onClick={AddConsumer} type="submit">Register</button>
                                         </form>
                                         <div className="register-with-button"><button type="button">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"

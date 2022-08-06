@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ConsumerCreateDto } from "./Models/ConsumerCreateDto";
 
 const BASE_URL = process.env.AFF_BASE_URL;
 const ClientId = process.env.Client_ID;
@@ -13,6 +14,6 @@ const header = {
     'Content-Type': 'application/json'
 }
 
-const AddConsumer= async ( conversationId: string) => {
-
+const AddConsumer= async ( consumerCreateDto: ConsumerCreateDto) => {
+    
 }
