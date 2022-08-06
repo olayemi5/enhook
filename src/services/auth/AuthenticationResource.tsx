@@ -10,10 +10,17 @@ const token = window.localStorage.getItem('accessToken');
 const controllerName = "Notification";
 
 const header = {
-    'ClientId': ClientId,
+    
     'Content-Type': 'application/json'
 }
 
-const AddConsumer= async ( consumerCreateDto: ConsumerCreateDto) => {
-    
+const AddConsumer = async ( consumerCreateDto: ConsumerCreateDto) => {
+     const response = await axios({
+        method : "POST",
+        url: `BASE_URL`,
+        data: consumerCreateDto,
+        headers: header
+     })
+
+    return response;
 }
