@@ -77,7 +77,7 @@ function Homepage () {
                 </div>
                 <div className="col-lg-4 col-md-6 col-sm-6">
                     <div className="single-features-box"><img src={require("../assets/images/features/features-img2.png")} alt="image" />
-                    <h3>Fast Withdrawals</h3>
+                    <h3>Fast Deposits & Withdrawals</h3>
                     <p>Lorem ipsum dolor sit amet, consectetur adipicing elit, sed do eiusmod tempor incididunt ut labore et
                         doee magna aliqua. Ut enim ad minim veniam.</p>
                     </div>

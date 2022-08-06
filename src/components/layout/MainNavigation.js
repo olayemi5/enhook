@@ -33,7 +33,7 @@ function MainNavigation () {
                     </li>
                     {
                         window.localStorage.getItem('username') === null ||  window.localStorage.getItem('username') === "" 
-                        ? <li class="nav-item megamenu"><Link class="nav-link" to={'/'}>Support</Link></li>
+                        ? <li class="nav-item megamenu"><Link disabled class="nav-link" to={'/'}><span style={{color:"gray", fontFamily:"monospace"}}>Authenticate for full access</span></Link></li>
                         : <section>
                             <li class="nav-item megamenu"><Link class="nav-link" to={'/'}>Fund Account</Link></li>
                             <li class="nav-item megamenu"><Link class="nav-link" to={'/'}>Transfer Funds</Link></li>
@@ -43,8 +43,18 @@ function MainNavigation () {
                     </ul>
                     <div class="others-option">
                         <div class="d-flex align-items-center">
-                            <div class="option-item"><a class="login-btn" href="https://novis-ts.envytheme.com/authentication/"><i
-                                class="fa fa-sign-in"></i> Authenticate</a></div>
+
+                            {   window.localStorage.getItem('username') != "" || window.localStorage.getItem('username') != null
+                                ? <section>
+                                        <div class="option-item"><a class="login-btn" href="https://novis-ts.envytheme.com/authentication/"><i
+                                        class="fa fa-sign-out"></i> Log out</a></div>
+                                </section> 
+                                : <section>
+                                    <div class="option-item"><a class="login-btn" href="https://novis-ts.envytheme.com/authentication/"><i
+                                        class="fa fa-sign-in"></i> Authenticate</a></div>
+                                </section>
+                            }
+
                             <div class="option-item"><a class="default-btn" href="https://novis-ts.envytheme.com/contact/"><i
                                 class="fa fa-user"></i> Contact Us</a></div>
                             <div class="option-item">
