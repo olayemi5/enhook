@@ -2,6 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function MainNavigation () {
+
+    // window.localStorage.setItem('username', response.preferred_username);
+    
     return(
         <section>
             <div id="navbar" class="navbar-area">
@@ -29,15 +32,19 @@ function MainNavigation () {
                     <li class="nav-item"><Link to={'/'} class="nav-link">Home</Link>
                     </li>
                     {
-                        
+                        window.localStorage.getItem('username') === null ||  window.localStorage.getItem('username') === "" 
+                        ? <li class="nav-item megamenu"><Link class="nav-link" to={'/'}>Support</Link></li>
+                        : <section>
+                            <li class="nav-item megamenu"><Link class="nav-link" to={'/'}>Fund Account</Link></li>
+                            <li class="nav-item megamenu"><Link class="nav-link" to={'/'}>Transfer Funds</Link></li>
+                        </section>
                     }
-                    <li class="nav-item megamenu"><Link class="nav-link" to={'/'}>Fund Account</Link></li>
-                    <li class="nav-item megamenu"><Link class="nav-link" to={'/'}>Transfer Funds</Link></li>
+                    
                     </ul>
                     <div class="others-option">
                         <div class="d-flex align-items-center">
                             <div class="option-item"><a class="login-btn" href="https://novis-ts.envytheme.com/authentication/"><i
-                                class="fa fa-sign-in"></i> Access</a></div>
+                                class="fa fa-sign-in"></i> Authenticate</a></div>
                             <div class="option-item"><a class="default-btn" href="https://novis-ts.envytheme.com/contact/"><i
                                 class="fa fa-user"></i> Contact Us</a></div>
                             <div class="option-item">
