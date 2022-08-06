@@ -17,7 +17,8 @@ function Authentication () {
     const nin = useRef<HTMLInputElement>(null);
     const password = useRef<HTMLInputElement>(null);
     
-    const AddConsumer = () => {
+    const AddConsumer = (event: React.ChangeEvent<HTMLFormElement>) => {
+        event.preventDefault();
         setIsLoading(true);
 
         const consumerDetails : ConsumerCreateDto  = {
@@ -34,20 +35,23 @@ function Authentication () {
         .then((response) => {
             const message = response.data;
             Swal.fire({
-                title: 'Success!',
+                title: 'info!',
                 text: `${message.response_message}`,
-                icon: 'success',
+                icon: 'info',
                 confirmButtonText: 'Ok'
             })
+
+            setIsLoading(false);
         })
         .catch(err => {
-            console.log(err.moreInformation);
+            console.log(err);
             Swal.fire({
                 title: 'Error!',
                 text: `${err.moreInformation}`,
                 icon: 'error',
-                confirmButtonText: 'Cancel'
             })
+
+            setIsLoading(false);
         });
        
     }
@@ -103,7 +107,7 @@ function Authentication () {
                                 <div className="col-lg-6 col-md-12">
                                     <div className="register-form">
                                         <h2>Register</h2>
-                                        <form ref={regisiterForm}>
+                                        <form ref={regisiterForm} onSubmit={AddConsumer}>
                                             <div ref={accountNumber} className="form-group"><input type="text" className="form-control"
                                                     placeholder="Account Number" /></div>
                                             <div ref={bvn} className="form-group"><input type="text" className="form-control"
@@ -112,7 +116,7 @@ function Authentication () {
                                             placeholder="NIN" /></div>
                                             <div ref={password} className="form-group"><input type="password" className="form-control"
                                                     placeholder="Password" /></div>
-                                            <button onClick={AddConsumer} type="submit">Register</button>
+                                            <button  type="submit">Register</button>
                                         </form>
                                         { isLoading ? " Processing ... " :
                                             <div className="register-with-button"><button type="button">
