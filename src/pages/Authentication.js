@@ -3,8 +3,7 @@ import React, { useRef, useState, useContext } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from 'uuid';
-import { GetDetailsByNIN, GetUserByPhone } from "../services/auth/AuthenticationResource";
-import { ConsumerCreateDto } from "../services/auth/Models/ConsumerCreateDto";
+import { GetDetailsByNIN, GetUserByPhone, AddConsumerData } from "../services/auth/AuthenticationResource";
 import AppCtx from '../context/UserContext'
 
 function Authentication () {
@@ -16,8 +15,22 @@ function Authentication () {
     const ninBvn = useRef();
     
     const ProceedAuthHandler = (event) => {
-        const selectMeans = document.querySelector('input[name="genderS"]:checked').value;
-        
+        event.preventDefault();
+        setIsLoading(true);
+
+        if (document.querySelector('input[name="auth_means"]:checked') === null) {
+            Swal.fire({
+                icon: 'info',
+                title: 'Oops...',
+                text: 'Please select an authentication mean'
+                })
+            
+                setIsLoading(false);
+            return;
+        }
+
+        const selectMeans = document.querySelector('input[name="auth_means"]:checked').value;
+
         if(selectMeans === "NIN") {
             const searchParams = 
             {
@@ -26,12 +39,15 @@ function Authentication () {
             }
             GetDetailsByNIN(searchParams)
             .then((response) => {
+                console.log(response);
                 if (response.data.response.length === 0) {
                    Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
                         text: 'NIN not valid',
                     })
+
+                    setIsLoading(false);
                     return;
                 }
                 else {
@@ -44,6 +60,7 @@ function Authentication () {
                     GetUserByPhone(searchParameter)
                     .then((response) => {
                         const dataP = response.data;
+                        console.log(dataP);
                         if (dataP.response_message === "Successful Request") {
                             userDetailCtx.updateUserDetails(dataP.response_data);
                         }
@@ -92,10 +109,19 @@ function Authentication () {
                                         remarks: "Passed",
                                         referralCode: data.email
                                     }
+                                    AddConsumerData(user)
+                                    .then((response) => {
+                                        console.log(response);
+                                        let dataPP = response.data;
+                                        if (dataPP.response_message === "Successful Request") {
+                                            userDetailCtx.updateUserDetails(dataPP.response_data);
+                                        }
+                                    })
                                 }
                             })
-                           
                         }
+
+                        setIsLoading(false);
                     })
                 }
             })

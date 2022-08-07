@@ -18,7 +18,7 @@ const UserHeader = {
     'ClientId' : 'c9166ae6d644aa43bc3ddae4c5969300'
 }
 
-const AddConsumerData = async ( consumerCreateDto: ConsumerCreateDto) => {
+const AddConsumerData = async ( consumerCreateDto: any) => {
      const response = await axios({
         method : "POST",
         url: `${BASE_URL}`,
