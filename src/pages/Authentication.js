@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from 'uuid';
 import { GetDetailsByNIN, GetUserByPhone, AddConsumerData } from "../services/auth/AuthenticationResource";
 import AppCtx from '../context/UserContext'
+import moment from "moment";
 
 function Authentication () {
 
@@ -87,6 +88,7 @@ function Authentication () {
                             
                             .then(result => {
                                 if (result.isConfirmed) {
+                                    let splitValue = data[0].birthdate.split("-")
                                     const user = {
                                         channelCode: "APISNG",
                                         uid: ninBvn.current.value,
@@ -105,9 +107,9 @@ function Authentication () {
                                         countryOfResidence: "NG",
                                         tier: "1",
                                         accountNumber: data[0].telephoneno.substring(1),
-                                        dateOfBirth: data[0].birthdate,
-                                        countryOfBirth: data[0].birthcountry,
-                                        password: data[0].telephoneno,
+                                        dateOfBirth: `${splitValue[2]}/${splitValue[1]}/${splitValue[0]}`,
+                                        countryOfBirth: data[0].birthcountry === "nigeria" ? "NG" : "NG",
+                                        password: data[0].telephoneno+data[0].telephoneno,
                                         remarks: "Passed",
                                         referralCode: data[0].email
                                     }
@@ -120,6 +122,7 @@ function Authentication () {
                                         let dataPP = response.data;
                                         if (dataPP.response_message === "Successful Request") {
                                             userDetailCtx.updateUserDetails(dataPP.response_data);
+                                            console.log(userDetailCtx.userDetails);
                                         }
                                     })
                                     .catch((err) => {
@@ -133,6 +136,14 @@ function Authentication () {
 
                                     setIsLoading(false);
                                 }
+                            })
+                            .catch((err) => {
+                                console.log(err)
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: err.message,
+                                })
                             })
                         }
                     })
@@ -186,26 +197,27 @@ function Authentication () {
                                     {
                                         userDetailCtx.userDetails != null ?
                                         <section>
-                                            <div className="form-group">
-                                                <label>First name:</label>
+                                            <h4 className="text-center">Account Details</h4>
+                                            <div className="form-group m-3">
+                                                <h3 style={{color:'#401c69'}}>First name:</h3>
                                                 <div className="p-4" style={{boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'}}>
                                                     {userDetailCtx.userDetails.first_name}
                                                 </div>
                                             </div>
-                                            <div className="form-group">
-                                                <label>Last name:</label>
+                                            <div className="form-group m-3">
+                                                <h3 style={{color:'#401c69'}}>Last name:</h3>
                                                 <div className="p-4" style={{boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'}}>
                                                     {userDetailCtx.userDetails.last_name}
                                                 </div>
                                             </div>
-                                            <div className="form-group">
-                                                <label>Wallet Address:</label>
+                                            <div className="form-group m-3">
+                                                <h3 style={{color:'#401c69'}}>Wallet Address:</h3>
                                                 <div className="p-4" style={{boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'}}>
                                                     {userDetailCtx.userDetails.wallet_info.wallet_address}
                                                 </div>
                                             </div>
-                                            <div className="form-group">
-                                                <label>Account Number:</label>
+                                            <div className="form-group m-3">
+                                                <h3 style={{color:'#401c69'}}>Account Number:</h3>
                                                 <div className="p-4" style={{boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'}}>
                                                     {userDetailCtx.userDetails.account_number}
                                                 </div>
