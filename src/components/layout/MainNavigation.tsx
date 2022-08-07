@@ -34,7 +34,7 @@ function MainNavigation () {
                         <div className="d-flex align-items-center">
                             <div className="option-item">
                                 {
-                                    userDetailsCtx.userDetails != null ?
+                                    userDetailsCtx?.userDetails != null ?
                                     <section>
                                         <Link className="" to="/"><i className="fa fa-user"> {userDetailsCtx.userDetails.account_number}</i> </Link>
                                         <button onClick={userDetailsCtx.clearUserSession} className="btn btn-info text-white"><i className="fa fa-sign-out"> Sign out</i></button>
