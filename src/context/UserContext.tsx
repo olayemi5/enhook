@@ -1,24 +1,23 @@
 import { useState } from "react";
 import React from 'react'
-import { User } from "../services/auth/Models/User";
 
 interface AppContext {
-    userDetails: User,
-    updateUserDetails: (userData: User) => void,
+    userDetails: any,
+    updateUserDetails: (userData: any) => void,
     clearUserSession: () => void
 }
 
 const AppCtx = React.createContext<AppContext | null>(null);
 
 export function UserDetailsProvider(props: any) {
-    const [userDetails, setUserDetails] = useState<User>({ user_id: '', email: '', phonenumber: '', channel_code: '', user_type: '' })
+    const [userDetails, setUserDetails] = useState<any>()
 
-    function updateUserDetailsHandler(userDetails: User) {
+    function updateUserDetailsHandler(userDetails: any) {
         setUserDetails(userDetails);
     }
 
     function clearUserSession() {
-        setUserDetails({ user_id: '', email: '', phonenumber: '', channel_code: '', user_type: '' });
+        setUserDetails(null);
     }
 
     const context: AppContext = {

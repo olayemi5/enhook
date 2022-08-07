@@ -30,51 +30,10 @@ function MainNavigation () {
             <nav className="navbar navbar-expand-md navbar-light hide-menu">
                 <div className="container"><Link className="navbar-brand" to={'/'}><b><span style={{color:"#05294d", fontSize:"30px"}}>e</span><span style={{color:"#24588c", fontSize:"30px"}}>NAIRA</span></b></Link>
                 <div className="collapse navbar-collapse mean-menu">
-                    
-                    {
-                        userDetailsCtx?.userDetails.email !== null ||  userDetailsCtx?.userDetails.email !== "" 
-                        ? <span>
-                                <ul className="navbar-nav">
-                                    <li className="nav-item"><Link to={'/'} className="nav-link">Home</Link>
-                                    </li>
-                                    <li className="nav-item megamenu"><Link className="nav-link" to={'/'}><span style={{color:"gray", fontFamily:"monospace"}}>Authenticate for full access</span></Link></li>
-                                </ul>
-                            </span>
-                        : <span>
-                            <ul className="navbar-nav">
-                                <li className="nav-item"><Link to={'/'} className="nav-link">Home</Link>
-                                </li>
-                                <li className="nav-item megamenu"><Link className="nav-link" to={'/'}>Fund Account</Link></li>
-                                <li className="nav-item megamenu"><Link className="nav-link" to={'/'}>Transfer Funds</Link></li>
-                              </ul>
-                          </span>
-                      
-                    }
-                    
-                    
                     <div className="others-option">
                         <div className="d-flex align-items-center">
-
-                            {   
-                                userDetailsCtx?.userDetails.email === "" || userDetailsCtx?.userDetails.email === null
-                                ?  <section>
-                                        <div className="option-item"><Link className="login-btn" to="/auth"><i
-                                            className="fa fa-sign-in"></i> Authenticate</Link>
-                                        </div>
-                                    </section>
-                                : <section>
-                                        <div className="option-item"><a className="login-btn" href="/"><i
-                                            className="fa fa-sign-out"></i> Log out</a>
-                                        </div>
-                                    </section>
-                            }
-
-                            <div className="option-item"><a className="default-btn" href="https://novis-ts.envytheme.com/contact/"><i
-                                className="fa fa-user"></i> Contact Us</a></div>
-                            <div className="option-item">
-                                <select className="form-select">
-                                    <option value="0">English</option>
-                                </select>
+                            <div className="option-item"><a className="" href="/">
+                                <i className="fa fa-user"></i> Unactive</a>
                             </div>
                         </div>
                     </div>

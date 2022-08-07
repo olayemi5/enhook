@@ -10,6 +10,11 @@ const controllerName = "Notification";
 
 const header = {
     'Content-Type': 'application/json',
+    'ClientId' : '9430f0ac65b98bba646edaa2b9779b87'
+}
+
+const UserHeader = {
+    'Content-Type': 'application/json',
     'ClientId' : 'c9166ae6d644aa43bc3ddae4c5969300'
 }
 
@@ -24,4 +29,37 @@ const AddConsumerData = async ( consumerCreateDto: ConsumerCreateDto) => {
     return response;
 }
 
-export { AddConsumerData } 
+const ConsumerLogin = async ( consumerLogin: any) => {
+     const response = await axios({
+        method : "POST",
+        url: `https://rgw.k8s.apis.ng/centric-platforms/uat/CAMLLogin`,
+        data: consumerLogin,
+        headers: header
+     })
+
+    return response;
+}
+
+const GetUserByPhone = async (userDetails: any) => {
+   const response = await axios({
+        method : "POST",
+        url: `https://rgw.k8s.apis.ng/centric-platforms/uat/enaira-user/GetUserDetailsByPhone`,
+        data: userDetails,
+        headers: UserHeader
+     })
+
+     return response;
+}
+
+const GetDetailsByNIN = async (searchParams: any) => {
+   const response = await axios({
+        method : "POST",
+        url: `https://rgw.k8s.apis.ng/centric-platforms/uat/customer/identity/NINValidationByNIN`,
+        data: searchParams,
+        headers: header
+     })
+
+     return response;
+}
+
+export { AddConsumerData, ConsumerLogin, GetUserByPhone, GetDetailsByNIN } 
