@@ -67,4 +67,15 @@ const GetDetailsByNIN = async (searchParams: any) => {
      return response;
 }
 
-export { AddConsumerData, ConsumerLogin, GetUserByPhone, GetDetailsByNIN } 
+const GetDetailsByBVN = async (searchParams: any) => {
+   const response = await axios({
+        method : "POST",
+        url: `https://rgw.k8s.apis.ng/centric-platforms/uat/customer/identity/BVN`,
+        data: searchParams,
+        headers: header
+     })
+
+     return response;
+}
+
+export { AddConsumerData, ConsumerLogin, GetUserByPhone, GetDetailsByNIN ,GetDetailsByBVN} 
