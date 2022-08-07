@@ -78,7 +78,7 @@ function Authentication () {
 
                             swalWithBootstrapButtons.fire({
                                 title: 'Update',
-                                text: "Do you want to create an account!",
+                                text: "Your account is not found on our database would you want to create an account!",
                                 icon: 'info',
                                 showCancelButton: true,
                                 confirmButtonText: 'Yes, create it!',
@@ -162,7 +162,7 @@ function Authentication () {
             GetDetailsByBVN(searchParams)
             .then((response) => {
                 console.log(response);
-                if(response.data.response.length === 0 || response.data.respons === "") {
+                if(response.data.response_data.length === 0 || response.data.response_data === null) {
                      Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
@@ -174,9 +174,10 @@ function Authentication () {
                 }
 
                 else{
-                    var data = response.data.response;
+                    var data = response.data.response_data;
+                    console.log(data.phoneNumber1)
                     const searchParameter = {
-                        "phone_number": data[0].phoneNumber1,
+                        "phone_number": data.phoneNumber1,
                         "user_type": "USER",
                         "channel_code": "APISNG"
                     }
@@ -200,7 +201,7 @@ function Authentication () {
 
                             swalWithBootstrapButtons.fire({
                                 title: 'Update',
-                                text: "Do you want to create an account!",
+                                text: "Your account is not found on our database would you want to create an account!",
                                 icon: 'info',
                                 showCancelButton: true,
                                 confirmButtonText: 'Yes, create it!',
