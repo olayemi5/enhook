@@ -154,6 +154,9 @@ function Authentication () {
                 }
             })
         }
+        if(selectMeans === "BVN") {
+            
+        }
 
     }
 
