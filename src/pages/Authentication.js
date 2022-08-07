@@ -154,11 +154,14 @@ function Authentication () {
                 }
             })
             .catch((err) => {
+                console.log(err)
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
-                    text: err.message,
+                    text: err.response.data.description,
                 })
+
+                setIsLoading(false);
             })
         }
         if(selectMeans === "BVN") {
@@ -287,8 +290,10 @@ function Authentication () {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
-                    text: err.message,
+                    text: err.response.data.error,
                 })
+
+                 setIsLoading(false);
             })
         }
 
