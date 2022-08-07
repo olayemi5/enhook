@@ -299,7 +299,12 @@ function Authentication () {
                                             { isLoading ? <section>
                                                 <button disabled >Loading...</button>
                                             </section> :
-                                                <button type="submit">Proceed</button>
+                                            <section>
+                                                {   userDetailCtx.userDetails != null ? "" :
+                                                    <button type="submit">Proceed</button>
+                                                }
+                                                
+                                            </section>
                                             }
                                         </form>
                                     </div>

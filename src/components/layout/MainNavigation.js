@@ -32,8 +32,17 @@ function MainNavigation () {
                 <div className="collapse navbar-collapse mean-menu">
                     <div className="others-option">
                         <div className="d-flex align-items-center">
-                            <div className="option-item"><a className="" href="/">
-                                <i className="fa fa-user"></i> Unactive</a>
+                            <div className="option-item">
+                                {
+                                    userDetailsCtx.userDetails != null ?
+                                    <section>
+                                        <Link className="" to="/"><i className="fa fa-user"> {userDetailsCtx.userDetails.account_number}</i> </Link>
+                                        <button onClick={userDetailsCtx.clearUserSession} className="btn btn-info text-white"><i className="fa fa-sign-out"> Sign out</i></button>
+                                    </section>
+                                    :
+                                    <Link className="" to="/"><i className="fa fa-user"> Unactive </i> </Link>
+                                }
+                                    
                             </div>
                         </div>
                     </div>
