@@ -52,8 +52,10 @@ function Authentication () {
                 }
                 else {
                     var data = response.data.response;
+                    console.log('phoneseach')
+                    console.log(data[0].telephoneno);
                     const searchParameter = {
-                        "phone_number": data.telephoneno,
+                        "phone_number": data[0].telephoneno,
                         "user_type": "USER",
                         "channel_code": "APISNG"
                     }
@@ -65,6 +67,7 @@ function Authentication () {
                             userDetailCtx.updateUserDetails(dataP.response_data);
                         }
                         else{
+                            console.log("details not found on wallet")
                             const swalWithBootstrapButtons = Swal.mixin({
                                 customClass: {
                                     confirmButton: 'btn btn-warning text-white m-3',
@@ -90,24 +93,24 @@ function Authentication () {
                                         uid: ninBvn.current.value,
                                         uidType: "NIN",
                                         reference: "NXG3877585HGTKJHGO",
-                                        title: data.title,
-                                        firstName: data.firstname,
-                                        middleName: data.middlename,
-                                        lastName: data.surname,
-                                        userName: data.email,
-                                        phone: data.telephoneno,
-                                        emailId: data.email,
+                                        title: data[0].title,
+                                        firstName: data[0].firstname,
+                                        middleName: data[0].middlename,
+                                        lastName: data[0].surname,
+                                        userName: data[0].email,
+                                        phone: data[0].telephoneno,
+                                        emailId: data[0].email,
                                         postalCode: "900110",
                                         city: "gwarinpa",
                                         address: "Lagos Estate, Abuja",
                                         countryOfResidence: "NG",
                                         tier: "1",
-                                        accountNumber: data.telephoneno.substring(1),
-                                        dateOfBirth: data.birthdate,
-                                        countryOfBirth: data.birthcountry,
-                                        password: data.telephoneno,
+                                        accountNumber: data[0].telephoneno.substring(1),
+                                        dateOfBirth: data[0].birthdate,
+                                        countryOfBirth: data[0].birthcountry,
+                                        password: data[0].telephoneno,
                                         remarks: "Passed",
-                                        referralCode: data.email
+                                        referralCode: data[0].email
                                     }
                                     AddConsumerData(user)
                                     .then((response) => {
