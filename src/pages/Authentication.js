@@ -222,7 +222,8 @@ function Authentication () {
                             .then(result => {
                                 if (result.isConfirmed) {
                                     console.log(data.dateOfBirth)
-                                    let splitValue = data.dateOfBirth.split("-")
+                                    let splitValue = data.dateOfBirth.split("-");
+                                    let monthInt = new Date(`${splitValue[1]} 01 2000`).toLocaleDateString(`en`, {month:`2-digit`});
                                     const user = {
                                         channelCode: "APISNG",
                                         uid: ninBvn.current.value,
@@ -241,7 +242,7 @@ function Authentication () {
                                         countryOfResidence: "NG",
                                         tier: "2",
                                         accountNumber: data.phoneNumber1.substring(1),
-                                        dateOfBirth: `${splitValue[2]}/${splitValue[1]}/${splitValue[0]}`,
+                                        dateOfBirth: `${splitValue[2]}/${monthInt}/${splitValue[0]}`,
                                         countryOfBirth: data.nationality === "Nigeria" ? "NG" : "NG",
                                         password: data.phoneNumber1+data.phoneNumber1,
                                         remarks: "Passed",
