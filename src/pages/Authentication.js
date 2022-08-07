@@ -113,16 +113,20 @@ function Authentication () {
                                         remarks: "Passed",
                                         referralCode: data[0].email
                                     }
-
-                                    console.log(user);
-
                                     AddConsumerData(user)
                                     .then((response) => {
                                         console.log(response);
                                         let dataPP = response.data;
                                         if (dataPP.response_message === "Successful Request") {
-                                            userDetailCtx.updateUserDetails(dataPP.response_data);
-                                            console.log(userDetailCtx.userDetails);
+                                            GetUserByPhone(searchParameter)
+                                            .then((response) => {
+                                                const dataPPP = response.data;
+                                                console.log(dataPPP);
+                                                if (dataP.response_message === "Successful Request") {
+                                                    userDetailCtx.updateUserDetails(dataPPP.response_data);
+                                                    setIsLoading(false);
+                                                }
+                                            })
                                         }
                                     })
                                     .catch((err) => {
