@@ -221,7 +221,8 @@ function Authentication () {
                             
                             .then(result => {
                                 if (result.isConfirmed) {
-                                    let splitValue = data.birthdate.split("-")
+                                    console.log(data.dateOfBirth)
+                                    let splitValue = data.dateOfBirth.split("-")
                                     const user = {
                                         channelCode: "APISNG",
                                         uid: ninBvn.current.value,
@@ -242,10 +243,11 @@ function Authentication () {
                                         accountNumber: data.phoneNumber1.substring(1),
                                         dateOfBirth: `${splitValue[2]}/${splitValue[1]}/${splitValue[0]}`,
                                         countryOfBirth: data.nationality === "Nigeria" ? "NG" : "NG",
-                                        password: data.phoneNumber1+data[0].phoneNumber1,
+                                        password: data.phoneNumber1+data.phoneNumber1,
                                         remarks: "Passed",
                                         referralCode: data.email
                                     }
+
                                     AddConsumerData(user)
                                     .then((response) => {
                                         console.log(response);
