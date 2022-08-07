@@ -224,6 +224,9 @@ function Authentication () {
                                     console.log(data.dateOfBirth)
                                     let splitValue = data.dateOfBirth.split("-");
                                     let monthInt = new Date(`${splitValue[1]} 01 2000`).toLocaleDateString(`en`, {month:`2-digit`});
+                                    let birthDate = `${splitValue[0]}/${monthInt}/${splitValue[2]}`;
+                                    console.log(birthDate);
+
                                     const user = {
                                         channelCode: "APISNG",
                                         uid: ninBvn.current.value,
@@ -234,7 +237,7 @@ function Authentication () {
                                         middleName: data.middleName,
                                         lastName: data.lastName,
                                         userName: data.email,
-                                        phone: data.telephoneno,
+                                        phone: data.phoneNumber1,
                                         emailId: data.email,
                                         postalCode: "900110",
                                         city: data.stateOfResidence,
@@ -242,7 +245,7 @@ function Authentication () {
                                         countryOfResidence: "NG",
                                         tier: "2",
                                         accountNumber: data.phoneNumber1.substring(1),
-                                        dateOfBirth: `${splitValue[2]}/${monthInt}/${splitValue[0]}`,
+                                        dateOfBirth: birthDate,
                                         countryOfBirth: data.nationality === "Nigeria" ? "NG" : "NG",
                                         password: data.phoneNumber1+data.phoneNumber1,
                                         remarks: "Passed",
@@ -254,11 +257,16 @@ function Authentication () {
                                         console.log(response);
                                         let dataPP = response.data;
                                         if (dataPP.response_message === "Successful Request") {
-                                            GetUserByPhone(searchParameter)
+                                            const searhDetails = {
+                                                "phone_number": data.phoneNumber1,
+                                                "user_type": "USER",
+                                                "channel_code": "APISNG"
+                                            }
+                                            GetUserByPhone(searhDetails)
                                             .then((response) => {
                                                 const dataPPP = response.data;
                                                 console.log(dataPPP);
-                                                if (dataP.response_message === "Successful Request") {
+                                                if (dataPPP.response_message === "Successful Request") {
                                                     userDetailCtx.updateUserDetails(dataPPP.response_data);
                                                     setIsLoading(false);
                                                 }
