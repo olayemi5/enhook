@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ConsumerCreateDto } from "./Models/ConsumerCreateDto";
 
-const BASE_URL = 'https://rgw.k8s.apis.ng/centric-platforms/uat/CreateConsumer';
+const BASE_URL = 'https://rgw.k8s.apis.ng/centric-platforms/uat/enaira-user/CreateConsumerV2';
 const userName = window.localStorage.getItem('username');
 const userId = window.localStorage.getItem('userId');
 const token = window.localStorage.getItem('accessToken');

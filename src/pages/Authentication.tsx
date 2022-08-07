@@ -1,21 +1,34 @@
 
-import React, { useRef, useState } from "react"
-import { Link } from "react-router-dom";
+import React, { useRef, useState, useContext } from "react"
+import { Link, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from 'uuid';
 import { AddConsumerData } from "../services/auth/AuthenticationResource";
 import { ConsumerCreateDto } from "../services/auth/Models/ConsumerCreateDto";
+import AppCtx from '../context/UserContext'
 
 function Authentication () {
 
+    const history = useNavigate();
     window.localStorage.setItem('currentPage', "Auth");
+    const userDetailCtx = useContext(AppCtx);
 
     const [isLoading, setIsLoading] = useState(false);
 
+    const firstName = useRef<HTMLInputElement>(null);
+    const lastName = useRef<HTMLInputElement>(null);
+    const middleName = useRef<HTMLInputElement>(null);
+    const username = useRef<HTMLInputElement>(null);
+    const phone = useRef<HTMLInputElement>(null);
+    const emailId = useRef<HTMLInputElement>(null);
+    const postalCode = useRef<HTMLInputElement>(null);
+    const city = useRef<HTMLInputElement>(null);
+    const address = useRef<HTMLInputElement>(null);
     const regisiterForm = useRef<HTMLFormElement>(null);
     const accountNumber = useRef<HTMLInputElement>(null);
     const bvn = useRef<HTMLInputElement>(null);
-    const nin = useRef<HTMLInputElement>(null);
+    const title = useRef<HTMLSelectElement>(null);
+    
     const password = useRef<HTMLInputElement>(null);
     let [reference, setReference] = useState(343)
 
@@ -23,19 +36,48 @@ function Authentication () {
         event.preventDefault();
         setIsLoading(true);
 
-        const consumerDetails : ConsumerCreateDto  = {
-            account_no : accountNumber?.current?.value,
-            bvn : bvn?.current?.value,
-            nin : nin?.current?.value,
-            password : password?.current?.value,
-            channel_code : "AFFGEN",
-            customer_tier : "2",
-            reference : `BSC34567898FGHJJB1`
+        const pass = password?.current?.value.length;
+        if (pass != null && pass < 12) {
+                Swal.fire({
+                title: 'Error!',
+                text: `Password cant be less than 12`,
+                icon: 'error',
+            })
+
+            setIsLoading(false);
+            return;
         }
+
+        const consumerDetails : ConsumerCreateDto  = {
+            channelCode: "APISNG",
+            uid: bvn?.current?.value,
+            uidType: "BVN",
+            reference: "NXG3547598HGTKJHGO",
+            title: title?.current?.value,
+            firstName: firstName?.current?.value,
+            middleName: middleName?.current?.value,
+            lastName: lastName?.current?.value,
+            userName: username?.current?.value,
+            phone: phone?.current?.value,
+            emailId: emailId?.current?.value,
+            postalCode: postalCode?.current?.value,
+            city: city?.current?.value,
+            address: address?.current?.value,
+            countryOfResidence: "NG",
+            tier: "2",
+            accountNumber: accountNumber?.current?.value,
+            dateOfBirth: "31/12/1987",
+            countryOfBirth: "NG",
+            password: password?.current?.value,
+            remarks: "Passed",
+            referralCode: emailId?.current?.value
+    }
 
         AddConsumerData(consumerDetails)
         .then((response) => {
+            console.log(response);
             const message = response.data;
+
             Swal.fire({
                 title: 'info!',
                 text: `${message.response_message}`,
@@ -44,6 +86,17 @@ function Authentication () {
             })
             setReference( reference + 1 );
             setIsLoading(false);
+
+            if(message.response_message === 'Successful Request') {
+                if (username?.current?.value !== undefined && phone?.current?.value !== undefined && emailId?.current?.value !== undefined) {
+                    userDetailCtx?.updateUserDetails({
+                        email: emailId?.current?.value,
+                        phonenumber: phone?.current?.value,
+                        username: username?.current?.value
+                    })
+                }   
+                history('/')
+            }
         })
         .catch(err => {
             console.log(err);
@@ -52,7 +105,7 @@ function Authentication () {
                 text: `${err.moreInformation}`,
                 icon: 'error',
             })
-
+            console.log(err);
             setIsLoading(false);
         });
        
@@ -110,12 +163,35 @@ function Authentication () {
                                     <div className="register-form">
                                         <h2>Register</h2>
                                         <form ref={regisiterForm} onSubmit={AddConsumer}>
+                                             <div className="form-group"><select required  ref={title} className="form-control"
+                                                    placeholder="Account Number">
+                                                        <option value={'Mr'}>Mr.</option> 
+                                                        <option value={'Mrs'}>Mrs.</option>
+                                                        <option value={'Dr'}>Dr.</option>  
+                                                        <option value={'Undefined'}>Undefined</option>  
+                                                    </select></div>
+                                            <div className="form-group"><input required  ref={firstName} type="text" className="form-control"
+                                                    placeholder="Firtsname" /></div>
+                                            <div className="form-group"><input required  ref={lastName} type="text" className="form-control"
+                                                    placeholder="Lastname" /></div>
+                                            <div className="form-group"><input required  ref={middleName} type="text" className="form-control"
+                                                    placeholder="Middlename" /></div>
+                                            <div className="form-group"><input required  ref={username} type="text" className="form-control"
+                                                    placeholder="Username" /></div>
+                                            <div className="form-group"><input required  ref={phone} type="text" className="form-control"
+                                                    placeholder="Phone Number" /></div>
+                                            <div className="form-group"><input required  ref={emailId} type="email" className="form-control"
+                                                    placeholder="Email" /></div>
+                                            <div className="form-group"><input required  ref={postalCode} type="text" className="form-control"
+                                                    placeholder="Postal code" /></div>
+                                            <div className="form-group"><input required  ref={city} type="text" className="form-control"
+                                                    placeholder="City" /></div>
+                                            <div className="form-group"><input required  ref={address} type="text" className="form-control"
+                                                    placeholder="Address" /></div>
                                             <div className="form-group"><input required  ref={accountNumber} type="text" className="form-control"
                                                     placeholder="Account Number" /></div>
                                             <div className="form-group"><input required ref={bvn} type="text" className="form-control"
                                                     placeholder="BVN" /></div>
-                                            <div className="form-group"><input ref={nin} type="text" className="form-control"
-                                                placeholder="NIN" /></div>
                                             <div  className="form-group"><input required type="password" ref={password} className="form-control"
                                                     placeholder="Password" /></div>
                                             { isLoading ? <section>

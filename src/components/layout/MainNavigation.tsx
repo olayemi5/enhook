@@ -1,10 +1,12 @@
-import React from "react";
+import React , {useContext} from "react";
 import { Link } from "react-router-dom";
+import AppCtx from "../../context/UserContext";
 
 function MainNavigation () {
 
     // window.localStorage.setItem('username', response.preferred_username);
-    
+    const userDetailsCtx = useContext(AppCtx);
+
     return(
         <section>
             <div id="navbar" className="navbar-area">
@@ -32,7 +34,7 @@ function MainNavigation () {
                     <li className="nav-item"><Link to={'/'} className="nav-link">Home</Link>
                     </li>
                     {
-                        window.localStorage.getItem('username') === null ||  window.localStorage.getItem('username') === "" 
+                        userDetailsCtx?.userDetails.email === null ||  userDetailsCtx?.userDetails.email === "" 
                         ? <li className="nav-item megamenu"><Link className="nav-link" to={'/'}><span style={{color:"gray", fontFamily:"monospace"}}>Authenticate for full access</span></Link></li>
                         : <section>
                             <li className="nav-item megamenu"><Link className="nav-link" to={'/'}>Fund Account</Link></li>
@@ -45,7 +47,7 @@ function MainNavigation () {
                         <div className="d-flex align-items-center">
 
                             {   
-                                window.localStorage.getItem('username') === "" || window.localStorage.getItem('username') === null
+                                userDetailsCtx?.userDetails.email === "" || userDetailsCtx?.userDetails.email === null
                                 ?  <section>
                                         <div className="option-item"><Link className="login-btn" to="/auth"><i
                                             className="fa fa-sign-in"></i> Authenticate</Link>
