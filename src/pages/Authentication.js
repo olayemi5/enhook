@@ -211,30 +211,30 @@ function Authentication () {
                             
                             .then(result => {
                                 if (result.isConfirmed) {
-                                    let splitValue = data[0].birthdate.split("-")
+                                    let splitValue = data.birthdate.split("-")
                                     const user = {
                                         channelCode: "APISNG",
                                         uid: ninBvn.current.value,
                                         uidType: "BVN",
                                         reference: "NXG3877513HGTKJHGO",
                                         title: "",
-                                        firstName: data[0].firstName,
-                                        middleName: data[0].middleName,
-                                        lastName: data[0].lastName,
-                                        userName: data[0].email,
-                                        phone: data[0].telephoneno,
-                                        emailId: data[0].email,
+                                        firstName: data.firstName,
+                                        middleName: data.middleName,
+                                        lastName: data.lastName,
+                                        userName: data.email,
+                                        phone: data.telephoneno,
+                                        emailId: data.email,
                                         postalCode: "900110",
-                                        city: data[0].stateOfResidence,
-                                        address:  data[0].residentialAddress,
+                                        city: data.stateOfResidence,
+                                        address:  data.residentialAddress,
                                         countryOfResidence: "NG",
                                         tier: "2",
-                                        accountNumber: data[0].phoneNumber1.substring(1),
+                                        accountNumber: data.phoneNumber1.substring(1),
                                         dateOfBirth: `${splitValue[2]}/${splitValue[1]}/${splitValue[0]}`,
-                                        countryOfBirth: data[0].nationality === "Nigeria" ? "NG" : "NG",
-                                        password: data[0].phoneNumber1+data[0].phoneNumber1,
+                                        countryOfBirth: data.nationality === "Nigeria" ? "NG" : "NG",
+                                        password: data.phoneNumber1+data[0].phoneNumber1,
                                         remarks: "Passed",
-                                        referralCode: data[0].email
+                                        referralCode: data.email
                                     }
                                     AddConsumerData(user)
                                     .then((response) => {
