@@ -153,6 +153,13 @@ function Authentication () {
                     })
                 }
             })
+            .catch((err) => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: err.message,
+                })
+            })
         }
         if(selectMeans === "BVN") {
             const searchParams = {
@@ -275,6 +282,13 @@ function Authentication () {
                         }
                     })
                 }
+            })
+            .catch((err) => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: err.message,
+                })
             })
         }
 
