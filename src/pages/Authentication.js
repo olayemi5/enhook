@@ -227,7 +227,7 @@ function Authentication () {
                                         city: data[0].stateOfResidence,
                                         address:  data[0].residentialAddress,
                                         countryOfResidence: "NG",
-                                        tier: "1",
+                                        tier: "2",
                                         accountNumber: data[0].phoneNumber1.substring(1),
                                         dateOfBirth: `${splitValue[2]}/${splitValue[1]}/${splitValue[0]}`,
                                         countryOfBirth: data[0].nationality === "Nigeria" ? "NG" : "NG",
