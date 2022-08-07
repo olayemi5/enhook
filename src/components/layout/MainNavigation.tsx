@@ -30,19 +30,28 @@ function MainNavigation () {
             <nav className="navbar navbar-expand-md navbar-light hide-menu">
                 <div className="container"><Link className="navbar-brand" to={'/'}><b><span style={{color:"#05294d", fontSize:"30px"}}>e</span><span style={{color:"#24588c", fontSize:"30px"}}>NAIRA</span></b></Link>
                 <div className="collapse navbar-collapse mean-menu">
-                    <ul className="navbar-nav">
-                    <li className="nav-item"><Link to={'/'} className="nav-link">Home</Link>
-                    </li>
+                    
                     {
-                        userDetailsCtx?.userDetails.email === null ||  userDetailsCtx?.userDetails.email === "" 
-                        ? <li className="nav-item megamenu"><Link className="nav-link" to={'/'}><span style={{color:"gray", fontFamily:"monospace"}}>Authenticate for full access</span></Link></li>
-                        : <section>
-                            <li className="nav-item megamenu"><Link className="nav-link" to={'/'}>Fund Account</Link></li>
-                            <li className="nav-item megamenu"><Link className="nav-link" to={'/'}>Transfer Funds</Link></li>
-                        </section>
+                        userDetailsCtx?.userDetails.email !== null ||  userDetailsCtx?.userDetails.email !== "" 
+                        ? <span>
+                                <ul className="navbar-nav">
+                                    <li className="nav-item"><Link to={'/'} className="nav-link">Home</Link>
+                                    </li>
+                                    <li className="nav-item megamenu"><Link className="nav-link" to={'/'}><span style={{color:"gray", fontFamily:"monospace"}}>Authenticate for full access</span></Link></li>
+                                </ul>
+                            </span>
+                        : <span>
+                            <ul className="navbar-nav">
+                                <li className="nav-item"><Link to={'/'} className="nav-link">Home</Link>
+                                </li>
+                                <li className="nav-item megamenu"><Link className="nav-link" to={'/'}>Fund Account</Link></li>
+                                <li className="nav-item megamenu"><Link className="nav-link" to={'/'}>Transfer Funds</Link></li>
+                              </ul>
+                          </span>
+                      
                     }
                     
-                    </ul>
+                    
                     <div className="others-option">
                         <div className="d-flex align-items-center">
 

@@ -21,10 +21,13 @@ function Authentication () {
     const username = useRef<HTMLInputElement>(null);
     const phone = useRef<HTMLInputElement>(null);
     const emailId = useRef<HTMLInputElement>(null);
+    const userId = useRef<HTMLInputElement>(null);
+    const loginPassword = useRef<HTMLInputElement>(null);
     const postalCode = useRef<HTMLInputElement>(null);
     const city = useRef<HTMLInputElement>(null);
     const address = useRef<HTMLInputElement>(null);
     const regisiterForm = useRef<HTMLFormElement>(null);
+    const loginForm = useRef<HTMLFormElement>(null);
     const accountNumber = useRef<HTMLInputElement>(null);
     const bvn = useRef<HTMLInputElement>(null);
     const title = useRef<HTMLSelectElement>(null);
@@ -92,7 +95,9 @@ function Authentication () {
                     userDetailCtx?.updateUserDetails({
                         email: emailId?.current?.value,
                         phonenumber: phone?.current?.value,
-                        username: username?.current?.value
+                        user_id: username?.current?.value,
+                        channel_code: 'APISNG', 
+                        user_type: 'USER'
                     })
                 }   
                 history('/')
@@ -111,6 +116,11 @@ function Authentication () {
        
     }
 
+    const loginHandler = (event: React.ChangeEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setIsLoading(true);
+    }
+
     return (
         <section>
              <div className="profile-authentication-area">
@@ -121,7 +131,7 @@ function Authentication () {
                                 <div className="col-lg-6 col-md-12">
                                     <div className="login-form">
                                         <h2>Login</h2>
-                                        <form>
+                                        <form ref={loginForm} onSubmit={loginHandler}>
                                             <div className="form-group"><input type="text" className="form-control"
                                                     placeholder="Username or email" /></div>
                                             <div className="form-group"><input type="password" className="form-control"

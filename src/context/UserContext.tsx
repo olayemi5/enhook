@@ -11,14 +11,14 @@ interface AppContext {
 const AppCtx = React.createContext<AppContext | null>(null);
 
 export function UserDetailsProvider(props: any) {
-    const [userDetails, setUserDetails] = useState<User>({ username: '', email: '', phonenumber: '' })
+    const [userDetails, setUserDetails] = useState<User>({ user_id: '', email: '', phonenumber: '', channel_code: '', user_type: '' })
 
     function updateUserDetailsHandler(userDetails: User) {
         setUserDetails(userDetails);
     }
 
     function clearUserSession() {
-        setUserDetails({ username: '', email: '', phonenumber: '' });
+        setUserDetails({ user_id: '', email: '', phonenumber: '', channel_code: '', user_type: '' });
     }
 
     const context: AppContext = {
