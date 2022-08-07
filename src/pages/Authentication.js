@@ -343,9 +343,21 @@ function Authentication () {
                                                 </div>
                                             </div>
                                             <div className="form-group m-3">
+                                                <h3 style={{color:'#401c69'}}>Middle name:</h3>
+                                                <div className="p-4" style={{boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'}}>
+                                                    {userDetailCtx.userDetails.middle_name}
+                                                </div>
+                                            </div>
+                                            <div className="form-group m-3">
                                                 <h3 style={{color:'#401c69'}}>Wallet Address:</h3>
                                                 <div className="p-4" style={{boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'}}>
                                                     {userDetailCtx.userDetails.wallet_info.wallet_address}
+                                                </div>
+                                            </div>
+                                             <div className="form-group m-3">
+                                                <h3 style={{color:'#401c69'}}>Daily Transfer Limit:</h3>
+                                                <div className="p-4" style={{boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'}}>
+                                                    {userDetailCtx.userDetails.wallet_info.daily_tnx_limit}
                                                 </div>
                                             </div>
                                             <div className="form-group m-3">
