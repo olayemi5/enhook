@@ -122,7 +122,7 @@ function Authentication () {
                                             .then((response) => {
                                                 const dataPPP = response.data;
                                                 console.log(dataPPP);
-                                                if (dataP.response_message === "Successful Request") {
+                                                if (dataPPP.response_message === "Successful Request") {
                                                     userDetailCtx.updateUserDetails(dataPPP.response_data);
                                                     setIsLoading(false);
                                                 }
