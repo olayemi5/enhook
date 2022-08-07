@@ -52,8 +52,6 @@ function Authentication () {
                 }
                 else {
                     var data = response.data.response;
-                    console.log('phoneseach')
-                    console.log(data[0].telephoneno);
                     const searchParameter = {
                         "phone_number": data[0].telephoneno,
                         "user_type": "USER",
@@ -65,6 +63,7 @@ function Authentication () {
                         console.log(dataP);
                         if (dataP.response_message === "Successful Request") {
                             userDetailCtx.updateUserDetails(dataP.response_data);
+                            setIsLoading(false);
                         }
                         else{
                             console.log("details not found on wallet")
@@ -112,6 +111,9 @@ function Authentication () {
                                         remarks: "Passed",
                                         referralCode: data[0].email
                                     }
+
+                                    console.log(user);
+
                                     AddConsumerData(user)
                                     .then((response) => {
                                         console.log(response);
@@ -120,11 +122,19 @@ function Authentication () {
                                             userDetailCtx.updateUserDetails(dataPP.response_data);
                                         }
                                     })
+                                    .catch((err) => {
+                                        console.log(err);
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Oops...',
+                                            text: err.message,
+                                        })
+                                    })
+
+                                    setIsLoading(false);
                                 }
                             })
                         }
-
-                        setIsLoading(false);
                     })
                 }
             })

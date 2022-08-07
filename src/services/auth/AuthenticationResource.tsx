@@ -13,6 +13,11 @@ const header = {
     'ClientId' : '9430f0ac65b98bba646edaa2b9779b87'
 }
 
+const CreateHeader = {
+   'Content-Type': 'application/json',
+   'ClientId' : '21b1503716b6ff143b6609b7a20c5ef4'
+}
+
 const UserHeader = {
     'Content-Type': 'application/json',
     'ClientId' : 'c9166ae6d644aa43bc3ddae4c5969300'
@@ -23,7 +28,7 @@ const AddConsumerData = async ( consumerCreateDto: any) => {
         method : "POST",
         url: `${BASE_URL}`,
         data: consumerCreateDto,
-        headers: header
+        headers: CreateHeader
      })
 
     return response;
