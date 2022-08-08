@@ -150,6 +150,7 @@ function Authentication () {
                                                 title: 'Oops...',
                                                 text: err.message,
                                             })
+                                            setIsLoading(false);
                                         })
                                     }
                                     else{
@@ -167,7 +168,7 @@ function Authentication () {
                                         })
                                     }
 
-                                    setIsLoading(false);
+                                    
                                 }
                             })
                             .catch((err) => {
@@ -280,38 +281,53 @@ function Authentication () {
                                         remarks: "Passed",
                                         referralCode: data.email
                                     }
-
-                                    AddConsumerData(user)
-                                    .then((response) => {
-                                        console.log(response);
-                                        let dataPP = response.data;
-                                        if (dataPP.response_message === "Successful Request") {
-                                            const searhDetails = {
-                                                "phone_number": data.phoneNumber1,
-                                                "user_type": "USER",
-                                                "channel_code": "APISNG"
-                                            }
-                                            GetUserByPhone(searhDetails)
-                                            .then((response) => {
-                                                const dataPPP = response.data;
-                                                console.log(dataPPP);
-                                                if (dataPPP.response_message === "Successful Request") {
-                                                    userDetailCtx.updateUserDetails(dataPPP.response_data);
-                                                    setIsLoading(false);
+                                    if (accountType === 'Consumer') {
+                                        AddConsumerData(user)
+                                        .then((response) => {
+                                            console.log(response);
+                                            let dataPP = response.data;
+                                            if (dataPP.response_message === "Successful Request") {
+                                                const searhDetails = {
+                                                    "phone_number": data.phoneNumber1,
+                                                    "user_type": "USER",
+                                                    "channel_code": "APISNG"
                                                 }
-                                            })
-                                        }
-                                    })
-                                    .catch((err) => {
-                                        console.log(err);
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Oops...',
-                                            text: err.message,
+                                                GetUserByPhone(searhDetails)
+                                                .then((response) => {
+                                                    const dataPPP = response.data;
+                                                    console.log(dataPPP);
+                                                    if (dataPPP.response_message === "Successful Request") {
+                                                        userDetailCtx.updateUserDetails(dataPPP.response_data);
+                                                        setIsLoading(false);
+                                                    }
+                                                })
+                                            }
                                         })
-                                    })
+                                        .catch((err) => {
+                                            console.log(err);
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Oops...',
+                                                text: err.message,
+                                            })
 
-                                    setIsLoading(false);
+                                            setIsLoading(false);
+                                        })
+                                    }
+                                }
+                                else{
+                                        AddMerchantData()
+                                        .then((response) => {
+
+                                        })
+                                         .catch((err) => {
+                                            console.log(err);
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Oops...',
+                                                text: err.message,
+                                            })
+                                        })
                                 }
                             })
                             .catch((err) => {
@@ -321,6 +337,7 @@ function Authentication () {
                                     title: 'Oops...',
                                     text: err.message,
                                 })
+                                setIsLoading(false);
                             })
                         }
                     })
@@ -336,7 +353,6 @@ function Authentication () {
                  setIsLoading(false);
             })
         }
-
     }
 
     return (
