@@ -34,6 +34,17 @@ const AddConsumerData = async ( consumerCreateDto: any) => {
     return response;
 }
 
+const AddMerchantData = async ( consumerCreateDto: any) => {
+     const response = await axios({
+        method : "POST",
+        url: `${BASE_URL}`,
+        data: consumerCreateDto,
+        headers: CreateHeader
+     })
+
+    return response;
+}
+
 const ConsumerLogin = async ( consumerLogin: any) => {
      const response = await axios({
         method : "POST",
@@ -78,4 +89,4 @@ const GetDetailsByBVN = async (searchParams: any) => {
      return response;
 }
 
-export { AddConsumerData, ConsumerLogin, GetUserByPhone, GetDetailsByNIN ,GetDetailsByBVN} 
+export { AddConsumerData,AddMerchantData, ConsumerLogin, GetUserByPhone, GetDetailsByNIN ,GetDetailsByBVN} 

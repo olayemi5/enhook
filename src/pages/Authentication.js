@@ -3,7 +3,7 @@ import React, { useRef, useState, useContext } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from 'uuid';
-import { GetDetailsByNIN, GetUserByPhone, AddConsumerData, GetDetailsByBVN , ConsumerLogin} from "../services/auth/AuthenticationResource";
+import { GetDetailsByNIN,AddMerchantData, GetUserByPhone, AddConsumerData, GetDetailsByBVN , ConsumerLogin} from "../services/auth/AuthenticationResource";
 import AppCtx from '../context/UserContext'
 import moment from "moment";
 
@@ -126,30 +126,46 @@ function Authentication () {
                                         remarks: "Passed",
                                         referralCode: data[0].email
                                     }
-                                    AddConsumerData(user)
-                                    .then((response) => {
-                                        console.log(response);
-                                        let dataPP = response.data;
-                                        if (dataPP.response_message === "Successful Request") {
-                                            GetUserByPhone(searchParameter)
-                                            .then((response) => {
-                                                const dataPPP = response.data;
-                                                console.log(dataPPP);
-                                                if (dataP.response_message === "Successful Request") {
-                                                    userDetailCtx.updateUserDetails(dataPPP.response_data);
-                                                    setIsLoading(false);
-                                                }
-                                            })
-                                        }
-                                    })
-                                    .catch((err) => {
-                                        console.log(err);
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Oops...',
-                                            text: err.message,
+                                    if(accountType === 'Consumer') {
+                                        AddConsumerData(user)
+                                        .then((response) => {
+                                            console.log(response);
+                                            let dataPP = response.data;
+                                            if (dataPP.response_message === "Successful Request") {
+                                                GetUserByPhone(searchParameter)
+                                                .then((response) => {
+                                                    const dataPPP = response.data;
+                                                    console.log(dataPPP);
+                                                    if (dataP.response_message === "Successful Request") {
+                                                        userDetailCtx.updateUserDetails(dataPPP.response_data);
+                                                        setIsLoading(false);
+                                                    }
+                                                })
+                                            }
                                         })
-                                    })
+                                        .catch((err) => {
+                                            console.log(err);
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Oops...',
+                                                text: err.message,
+                                            })
+                                        })
+                                    }
+                                    else{
+                                        AddMerchantData()
+                                        .then((response) => {
+
+                                        })
+                                         .catch((err) => {
+                                            console.log(err);
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Oops...',
+                                                text: err.message,
+                                            })
+                                        })
+                                    }
 
                                     setIsLoading(false);
                                 }
@@ -336,17 +352,17 @@ function Authentication () {
                                         <div className="row">
                                             <div className="col-lg-6 col-md-12">
                                                 <p className="mr-2">Authenticate with </p> 
-                                                <input id="NIN" value="NIN" name="auth_means" type="radio"/> <label style={{marginRight: '8px'}}> NIN</label>
-                                                <input id="BVN" value="BVN" name="auth_means" type="radio"/> <label> BVN</label>
+                                                <input disabled={userDetailCtx.userDetails != null} id="NIN" value="NIN" name="auth_means" type="radio"/> <label style={{marginRight: '8px'}}> NIN</label>
+                                                <input disabled={userDetailCtx.userDetails != null} id="BVN" value="BVN" name="auth_means" type="radio"/> <label> BVN</label>
                                             </div>
                                             <div className="col-lg-6 col-md-12 mb-3">
                                                 <p className="mr-2">Account type</p> 
-                                                <input id="Consumer" value="Consumer" name="account_type" type="radio"/> <label style={{marginRight: '8px'}}> Consumer</label>
-                                                <input id="Merchant" value="Merchant" name="account_type" type="radio"/> <label> Merchant</label>
+                                                <input disabled={userDetailCtx.userDetails != null} id="Consumer" value="Consumer" name="account_type" type="radio"/> <label style={{marginRight: '8px'}}> Consumer</label>
+                                                <input disabled={userDetailCtx.userDetails != null} id="Merchant" value="Merchant" name="account_type" type="radio"/> <label> Merchant</label>
                                             </div>
                                         </div>
                                         <form onSubmit={ProceedAuthHandler}>
-                                            <div className="form-group"><input ref={ninBvn} required type="text" className="form-control"
+                                            <div className="form-group"><input ref={ninBvn} disabled={userDetailCtx.userDetails != null} required type="text" className="form-control"
                                                     placeholder="NIN / BVN" /></div>
                                             { isLoading ? <section>
                                                 <button disabled >Loading...</button>
