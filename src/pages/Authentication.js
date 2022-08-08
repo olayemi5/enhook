@@ -355,6 +355,20 @@ function Authentication () {
         }
     }
 
+    const loginUser = (userDetails) => {
+        console.log("alay");
+    }
+
+    const getAccoutBalance = () => {
+        const token = window.localStorage.getItem("token");
+        if(token === null || token === undefined || token === "") {
+            const userLoginDetails = {
+
+            }
+            loginUser(userLoginDetails);
+        }
+    }
+
     return (
         <section>
              <div className="profile-authentication-area">
@@ -364,7 +378,14 @@ function Authentication () {
                             <div className="row">
                                 <div className="col-lg-6 col-md-12 " >
                                     <div className="login-form" style={{boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'}}>
-                                        <h2><b className="">USSD *977*1#</b></h2>
+                                        {   
+                                            userDetailCtx.userDetails != null && 
+                                            <p style={{padding:'3px',fontSize: "14px", borderRadius:"3px",  boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px'}} className="pull-right">
+                                                <b> Account Balance: X X X X </b>
+                                                <button onClick={getAccoutBalance} className="btn "><i class="fa fa-eye" aria-hidden="true"></i></button> 
+                                            </p>
+                                        }
+                                        <h2><b className="">USSD *977*1#</b> </h2>
                                         <div className="row">
                                             <div className="col-lg-6 col-md-12">
                                                 <p className="mr-2">Authenticate with </p> 
