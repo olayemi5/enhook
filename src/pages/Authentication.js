@@ -3,7 +3,7 @@ import React, { useRef, useState, useContext } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from 'uuid';
-import { GetDetailsByNIN, GetUserByPhone, AddConsumerData, GetDetailsByBVN } from "../services/auth/AuthenticationResource";
+import { GetDetailsByNIN, GetUserByPhone, AddConsumerData, GetDetailsByBVN , ConsumerLogin} from "../services/auth/AuthenticationResource";
 import AppCtx from '../context/UserContext'
 import moment from "moment";
 
@@ -63,6 +63,7 @@ function Authentication () {
                         const dataP = response.data;
                         console.log(dataP);
                         if (dataP.response_message === "Successful Request") {
+                            
                             userDetailCtx.updateUserDetails(dataP.response_data);
                             setIsLoading(false);
                         }
@@ -122,7 +123,7 @@ function Authentication () {
                                             .then((response) => {
                                                 const dataPPP = response.data;
                                                 console.log(dataPPP);
-                                                if (dataPPP.response_message === "Successful Request") {
+                                                if (dataP.response_message === "Successful Request") {
                                                     userDetailCtx.updateUserDetails(dataPPP.response_data);
                                                     setIsLoading(false);
                                                 }
@@ -303,7 +304,7 @@ function Authentication () {
                     title: 'Oops...',
                     text: err.response.data.error,
                 })
-
+                    console.log(err)
                  setIsLoading(false);
             })
         }

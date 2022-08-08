@@ -14,7 +14,7 @@ function MainNavigation () {
                 <div className="container">
                 <div className="raimo-responsive-menu">
                     <div className="hamburger-menu"><i className="bx bx-menu"></i></div>
-                    <div className="container"><Link className="navbar-brand" to="/"><b><span style={{color:"#05294d"}}>EN</span><span style={{color:"#24588c", fontSize:"30px"}}>HOOK</span></b></Link></div>
+                    <div className="container"><Link className="navbar-brand" to={'/'}><b><span style={{color:"#05294d", fontSize:"30px"}}>e</span><span style={{color:"#24588c", fontSize:"30px"}}>NAIRA</span></b></Link></div>
                     <div className="responsive-others-option">
                     <div className="d-flex align-items-center">
                         <div className="option-item"><a className="login-btn"><i
