@@ -365,7 +365,7 @@ function Authentication () {
                                             <div className="form-group"><input ref={ninBvn} disabled={userDetailCtx.userDetails != null} required type="text" className="form-control"
                                                     placeholder="NIN / BVN" /></div>
                                             { isLoading ? <section>
-                                                <button disabled >Loading...</button> 
+                                                <button disabled >Loading...</button>
                                             </section> :
                                             <section>
                                                 {   userDetailCtx.userDetails != null ? "" :
