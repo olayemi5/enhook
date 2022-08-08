@@ -30,7 +30,19 @@ function Authentication () {
             return;
         }
 
+        if (document.querySelector('input[name="account_type"]:checked') === null) {
+            Swal.fire({
+                icon: 'info',
+                title: 'Oops...',
+                text: 'Please select an account type'
+                })
+            
+                setIsLoading(false);
+            return;
+        }
+
         const selectMeans = document.querySelector('input[name="auth_means"]:checked').value;
+        const accountType = document.querySelector('input[name="auth_means"]:checked').value;
 
         if(selectMeans === "NIN") {
             const searchParams = 
@@ -321,9 +333,18 @@ function Authentication () {
                                 <div className="col-lg-6 col-md-12 " >
                                     <div className="login-form" style={{boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'}}>
                                         <h2><b className="">USSD *977*1#</b></h2>
-                                        <p className="mr-2">Authenticate with </p> 
-                                        <input id="" value="NIN" name="auth_means" type="radio"/> <label style={{marginRight: '8px'}}> NIN</label>
-                                        <input id="BVN" value="BVN" name="auth_means" type="radio"/> <label> BVN</label>
+                                        <div className="row">
+                                            <div className="col-lg-6 col-md-12">
+                                                <p className="mr-2">Authenticate with </p> 
+                                                <input id="NIN" value="NIN" name="auth_means" type="radio"/> <label style={{marginRight: '8px'}}> NIN</label>
+                                                <input id="BVN" value="BVN" name="auth_means" type="radio"/> <label> BVN</label>
+                                            </div>
+                                            <div className="col-lg-6 col-md-12 mb-3">
+                                                <p className="mr-2">Account type</p> 
+                                                <input id="Consumer" value="Consumer" name="account_type" type="radio"/> <label style={{marginRight: '8px'}}> Consumer</label>
+                                                <input id="Merchant" value="Merchant" name="account_type" type="radio"/> <label> Merchant</label>
+                                            </div>
+                                        </div>
                                         <form onSubmit={ProceedAuthHandler}>
                                             <div className="form-group"><input ref={ninBvn} required type="text" className="form-control"
                                                     placeholder="NIN / BVN" /></div>
