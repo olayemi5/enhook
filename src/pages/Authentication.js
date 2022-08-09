@@ -42,7 +42,7 @@ function Authentication () {
         }
 
         const selectMeans = document.querySelector('input[name="auth_means"]:checked').value;
-        const accountType = document.querySelector('input[name="auth_means"]:checked').value;
+        const accountType = document.querySelector('input[name="account_type"]:checked').value;
 
         if(selectMeans === "NIN") {
             const searchParams = 
@@ -65,9 +65,10 @@ function Authentication () {
                 }
                 else {
                     var data = response.data.response;
+                    let usertype = accountType === 'Consumer' ? 'USER' : 'MERCHANT'
                     const searchParameter = {
                         "phone_number": data[0].telephoneno,
-                        "user_type": "USER",
+                        "user_type": usertype,
                         "channel_code": "APISNG"
                     }
                     GetUserByPhone(searchParameter)
@@ -176,12 +177,12 @@ function Authentication () {
 
                                                 const merchantData = {
                                                     channelCode: "APISNG",
-                                                    reference: "01372522-0001",
+                                                    reference: "01372922-0001",
                                                     uid: splitString[1],
                                                     uidType: "TIN",
                                                     businessName: splitString[0],
                                                     title: "",
-                                                    dirBvn: ninBvn.current.value,
+                                                    dirBvn: "",
                                                     dirFirstName: data[0].firstname,
                                                     dirMiddleName: data[0].middleName,
                                                     dirLastName: data[0].lastName,
@@ -204,7 +205,49 @@ function Authentication () {
                                                 }
 
                                                 console.log(merchantData)
+                                                AddMerchantData(merchantData)
+                                                .then((response) => {
+                                                    console.log(response);
+                                                    let dataPP = response.data;
+                                                    console.log(dataPP)
+                                                    console.log(dataPP.response_data)
+                                                    if (dataPP.response_data.Data.error != null) {
+                                                        Swal.fire({
+                                                            icon: 'error',
+                                                            title: 'Oops...',
+                                                            text: dataPP.response_data.Data.error,
+                                                        })
+
+                                                        setIsLoading(false);
+                                                    }
+                                                    if (dataPP.response_message === "Merchant Details was successfully sent for wallet creation.") {
+                                                        let usertype = accountType === 'Consumer' ? 'USER' : 'MERCHANT'
+                                                        const searhDetails = {
+                                                            "phone_number": data.phoneNumber1,
+                                                            "user_type": usertype,
+                                                            "channel_code": "APISNG"
+                                                        }
+                                                        GetUserByPhone(searhDetails)
+                                                        .then((response) => {
+                                                            const dataPPPp = response.data;
+                                                            console.log(dataPPPp);
+                                                            if (dataPPPp.response_message === "Successful Request") {
+                                                                userDetailCtx.updateUserDetails(dataPPPp.response_data);
+                                                                setIsLoading(false);
+                                                            }
+                                                        })
+                                                        .catch((err) => {
+                                                            Swal.fire({
+                                                                icon: 'error',
+                                                                title: 'Oops...',
+                                                                text: err.message,
+                                                            })
+
+                                                            setIsLoading(false);
+                                                        })
+                                                }
                                                 
+                                            })
                                             }
                                         })
                                     }
@@ -233,6 +276,7 @@ function Authentication () {
                 setIsLoading(false);
             })
         }
+
         if(selectMeans === "BVN") {
             const searchParams = {
                 channel_code: "APISNG",
@@ -255,9 +299,10 @@ function Authentication () {
                 else{
                     var data = response.data.response_data;
                     console.log(data.phoneNumber1)
+                    let usertype = accountType === 'Consumer' ? 'USER' : 'MERCHANT'
                     const searchParameter = {
                         "phone_number": data.phoneNumber1,
-                        "user_type": "USER",
+                        "user_type": usertype,
                         "channel_code": "APISNG"
                     }
                     GetUserByPhone (searchParameter)
@@ -294,7 +339,7 @@ function Authentication () {
                                     let splitValue = data.dateOfBirth.split("-");
                                     let monthInt = new Date(`${splitValue[1]} 01 2000`).toLocaleDateString(`en`, {month:`2-digit`});
                                     let birthDate = `${splitValue[0]}/${monthInt}/${splitValue[2]}`;
-                                    console.log(birthDate);
+                                    console.log(accountType);
 
                                     if (accountType === 'Consumer') {
                                         const user = {
@@ -321,14 +366,17 @@ function Authentication () {
                                             remarks: "Passed",
                                             referralCode: data.email
                                         }
+
+                                        console.log(user);
                                         AddConsumerData(user)
                                         .then((response) => {
                                             console.log(response);
                                             let dataPP = response.data;
                                             if (dataPP.response_message === "Successful Request") {
+                                                let usertype = accountType === 'Consumer' ? 'USER' : 'MERCHANT'
                                                 const searhDetails = {
                                                     "phone_number": data.phoneNumber1,
-                                                    "user_type": "USER",
+                                                    "user_type": usertype,
                                                     "channel_code": "APISNG"
                                                 }
                                                 GetUserByPhone(searhDetails)
@@ -380,7 +428,7 @@ function Authentication () {
                                                     uidType: "TIN",
                                                     businessName: splitString[0],
                                                     title: "",
-                                                    dirBvn: "22148167269",
+                                                    dirBvn: ninBvn.current.value,
                                                     dirFirstName: data.firstName,
                                                     dirMiddleName: data.middleName,
                                                     dirLastName: data.lastName,
@@ -406,35 +454,64 @@ function Authentication () {
                                                 
                                                 AddMerchantData(merchantData)
                                                 .then((response) => {
-                                                console.log(response);
-                                                let dataPP = response.data;
-                                                if (dataPP.response_message === "Successful Request") {
-                                                    const searhDetails = {
-                                                        "phone_number": data.phoneNumber1,
-                                                        "user_type": "USER",
-                                                        "channel_code": "APISNG"
-                                                    }
-                                                    GetUserByPhone(searhDetails)
-                                                    .then((response) => {
-                                                        const dataPPPp = response.data;
-                                                        console.log(dataPPPp);
-                                                        if (dataPPPp.response_message === "Successful Request") {
-                                                            userDetailCtx.updateUserDetails(dataPPPp.response_data);
-                                                            setIsLoading(false);
-                                                        }
-                                                    })
-                                                    .catch((err) => {
-                                                         Swal.fire({
+                                                    console.log(response);
+                                                    let dataPP = response.data;
+                                                    console.log(dataPP)
+                                                    console.log(dataPP.response_data)
+                                                    if (dataPP.response_data.Data.error != null) {
+                                                        Swal.fire({
                                                             icon: 'error',
                                                             title: 'Oops...',
-                                                            text: err.message,
+                                                            text: dataPP.response_data.Data.error,
                                                         })
 
-                                                         setIsLoading(false);
-                                                    })
+                                                        setIsLoading(false);
+                                                    }
+                                                    if (dataPP.response_message === "Merchant Details was successfully sent for wallet creation.") {
+                                                        let usertype = accountType === 'Consumer' ? 'USER' : 'MERCHANT'
+                                                        const searhDetails = {
+                                                            "phone_number": data.phoneNumber1,
+                                                            "user_type": usertype,
+                                                            "channel_code": "APISNG"
+                                                        }
+                                                        GetUserByPhone(searhDetails)
+                                                        .then((response) => {
+                                                            const dataPPPp = response.data;
+                                                            console.log(dataPPPp);
+                                                            if (dataPPPp.response_message === "Successful Request") {
+                                                                userDetailCtx.updateUserDetails(dataPPPp.response_data);
+                                                                setIsLoading(false);
+                                                            }
+                                                        })
+                                                        .catch((err) => {
+                                                            Swal.fire({
+                                                                icon: 'error',
+                                                                title: 'Oops...',
+                                                                text: err.message,
+                                                            })
+
+                                                            setIsLoading(false);
+                                                        })
                                                 }
+                                                
                                             })
+                                            .catch((err) => {
+                                                Swal.fire({
+                                                    text: err.message,
+                                                    icon: "error"
+                                                })
+                                            })
+                                            
                                             }
+                                        })
+                                        .catch((err) => {
+                                            console.log(err)
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Oops...',
+                                                text: err.message,
+                                            })
+                                            setIsLoading(false);
                                         })
                                     }
                                 }
@@ -547,25 +624,19 @@ function Authentication () {
                                             <div className="form-group m-3">
                                                 <h3 style={{color:'#401c69'}}>First name:</h3>
                                                 <div className="p-4" style={{boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'}}>
-                                                    {userDetailCtx.userDetails.first_name}
+                                                    {userDetailCtx.userDetails.first_name} {userDetailCtx.userDetails.dir_first_name}
                                                 </div>
                                             </div>
                                             <div className="form-group m-3">
                                                 <h3 style={{color:'#401c69'}}>Last name:</h3>
                                                 <div className="p-4" style={{boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'}}>
-                                                    {userDetailCtx.userDetails.last_name}
+                                                    {userDetailCtx.userDetails.last_name} {userDetailCtx.userDetails.dir_last_name}
                                                 </div>
                                             </div>
                                             <div className="form-group m-3">
                                                 <h3 style={{color:'#401c69'}}>Wallet Address:</h3>
                                                 <div className="p-4" style={{boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'}}>
-                                                    {userDetailCtx.userDetails.wallet_info.wallet_address}
-                                                </div>
-                                            </div>
-                                             <div className="form-group m-3">
-                                                <h3 style={{color:'#401c69'}}>Daily Transfer Limit:</h3>
-                                                <div className="p-4" style={{boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'}}>
-                                                    {userDetailCtx.userDetails.wallet_info.daily_tnx_limit}
+                                                    {userDetailCtx.userDetails.wallet_info && userDetailCtx.userDetails.wallet_info.wallet_address}
                                                 </div>
                                             </div>
                                             <div className="form-group m-3">

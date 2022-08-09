@@ -37,7 +37,7 @@ const AddConsumerData = async ( consumerCreateDto: any) => {
 const AddMerchantData = async ( consumerCreateDto: any) => {
      const response = await axios({
         method : "POST",
-        url: `${BASE_URL}`,
+        url: `https://rgw.k8s.apis.ng/centric-platforms/uat/enaira-user/CreateMerchantV2`,
         data: consumerCreateDto,
         headers: CreateHeader
      })
