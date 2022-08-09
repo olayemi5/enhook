@@ -14,6 +14,7 @@ function Authentication () {
     const userDetailCtx = useContext(AppCtx);
     const [isLoading, setIsLoading] = useState(false);
     const ninBvn = useRef();
+    const amount = useRef();
     
      const  ProceedAuthHandler = async (event) => {
         event.preventDefault();
@@ -555,6 +556,10 @@ function Authentication () {
         }
     }
 
+    const DepositHandler = () => {
+        
+    }
+
     return (
         <section>
              <div className="profile-authentication-area">
@@ -571,7 +576,7 @@ function Authentication () {
                                                 <button onClick={getAccoutBalance} className="btn "><i class="fa fa-eye" aria-hidden="true"></i></button> 
                                             </p>
                                         }
-                                        <h2><b className="">USSD *977*1#</b> </h2>
+                                        <h2><b className="">USSD *977*1*VerificationID#</b> </h2>
                                         <div className="row">
                                             <div className="col-lg-6 col-md-12">
                                                 <p className="mr-2">Authenticate with </p> 
@@ -585,10 +590,22 @@ function Authentication () {
                                             </div>
                                         </div>
                                         <form onSubmit={ProceedAuthHandler}>
-                                            <div className="form-group"><input ref={ninBvn} disabled={userDetailCtx.userDetails != null} required type="text" className="form-control"
-                                                    placeholder="NIN / BVN" /></div>
+                                            <div className="row">
+                                                <div className="col-md-3">
+                                                    <p className="text-center" style={{paddingTop:'15px',lineHeight:'15px',height:'50px', margin:'0px' ,fontSize: "14px", borderRadius:"3px",  boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px'}} ><b>* 9 9 7 * 1</b></p> 
+                                                </div>
+                                                <div className="col-md-8">
+                                                     <div className="form-group"><input ref={ninBvn} disabled={userDetailCtx.userDetails != null} required type="text" className="form-control"
+                                                        placeholder="NIN / BVN" />
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-1">
+                                                         <p style={{paddingTop:'15px',lineHeight:'15px',height:'50px', margin:'0px' ,fontSize: "14px", borderRadius:"3px",  boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px'}} ><b>#</b></p> 
+                                                </div>
+                                            </div>
+                                           
                                             { isLoading ? <section>
-                                                <button disabled >Loading...</button>
+                                                <button disabled >Dailing...</button>
                                             </section> :
                                             <section>
                                                 {   userDetailCtx.userDetails != null ? "" :
@@ -603,13 +620,13 @@ function Authentication () {
                                         <div className="login-form mt-3" style={{boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'}}>
                                             <h2 style={{fontSize:"25px"}}><b className="">USSD *977*2*AMOUNT#</b></h2> 
                                             <p className="mb-4">Deposit</p>
-                                            <form >
+                                            <form onSubmit={DepositHandler}>
                                                 <div className="row">
                                                     <div className="col-md-3">
                                                         <p className="text-center" style={{paddingTop:'15px',lineHeight:'15px',height:'50px', margin:'0px' ,fontSize: "14px", borderRadius:"3px",  boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px'}} ><b>* 9 9 7 * 2</b></p> 
                                                     </div>
                                                     <div className="col-md-8">
-                                                         <div className="form-group"><input required type="text" className="form-control"
+                                                         <div className="form-group"><input required type="text" ref={amount} className="form-control"
                                                             placeholder="Amount" />
                                                         </div>
                                                     </div>
@@ -619,7 +636,7 @@ function Authentication () {
                                                 </div>
                                                 
                                                 { isLoading ? <section>
-                                                    <button disabled >Loading...</button>
+                                                    <button disabled >Dailing...</button>
                                                 </section> :
                                                     <button type="submit"><i className="fa fa-phone"></i> Dial</button>
                                                 }
