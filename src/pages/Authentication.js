@@ -592,7 +592,7 @@ function Authentication () {
                                             </section> :
                                             <section>
                                                 {   userDetailCtx.userDetails != null ? "" :
-                                                    <button type="submit">Proceed</button>
+                                                    <button type="submit"><i className="fa fa-phone"></i> Dial</button>
                                                 }
                                                 
                                             </section>
@@ -601,15 +601,27 @@ function Authentication () {
                                     </div>
                                     {   userDetailCtx.userDetails &&
                                         <div className="login-form mt-3" style={{boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'}}>
-                                            <h2 style={{fontSize:"25px"}}><b className="">USSD *977*2*AMOUNT*PHONENUMBER#</b></h2> 
-                                            <p>Transfer</p>
+                                            <h2 style={{fontSize:"25px"}}><b className="">USSD *977*2*AMOUNT#</b></h2> 
+                                            <p className="mb-4">Deposit</p>
                                             <form >
-                                                <div className="form-group"><input required type="text" className="form-control"
-                                                        placeholder="Phone Number" /></div>
+                                                <div className="row">
+                                                    <div className="col-md-3">
+                                                        <p className="text-center" style={{paddingTop:'15px',lineHeight:'15px',height:'50px', margin:'0px' ,fontSize: "14px", borderRadius:"3px",  boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px'}} ><b>* 9 9 7 * 2</b></p> 
+                                                    </div>
+                                                    <div className="col-md-8">
+                                                         <div className="form-group"><input required type="text" className="form-control"
+                                                            placeholder="Amount" />
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-md-1">
+                                                         <p style={{paddingTop:'15px',lineHeight:'15px',height:'50px', margin:'0px' ,fontSize: "14px", borderRadius:"3px",  boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px'}} ><b>#</b></p> 
+                                                    </div>
+                                                </div>
+                                                
                                                 { isLoading ? <section>
                                                     <button disabled >Loading...</button>
                                                 </section> :
-                                                    <button type="submit">Proceed</button>
+                                                    <button type="submit"><i className="fa fa-phone"></i> Dial</button>
                                                 }
                                             </form>
                                         </div>
