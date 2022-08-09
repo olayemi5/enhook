@@ -45,6 +45,8 @@ function Authentication () {
         const selectMeans = document.querySelector('input[name="auth_means"]:checked').value;
         const accountType = document.querySelector('input[name="account_type"]:checked').value;
 
+        window.localStorage.setItem("accountType",accountType);
+
         if(selectMeans === "NIN") {
             const searchParams = 
             {
@@ -183,10 +185,10 @@ function Authentication () {
                                                     uidType: "TIN",
                                                     businessName: splitString[0],
                                                     title: "",
-                                                    dirBvn: "",
+                                                    dirBvn: ninBvn.current.value,
                                                     dirFirstName: data[0].firstname,
-                                                    dirMiddleName: data[0].middleName,
-                                                    dirLastName: data[0].lastName,
+                                                    dirMiddleName: data[0].middlename,
+                                                    dirLastName: data[0].surname,
                                                     userName: data[0].email,
                                                     phone: data[0].telephoneno,
                                                     emailId: data[0].email,
@@ -221,7 +223,7 @@ function Authentication () {
 
                                                         setIsLoading(false);
                                                     }
-                                                    if (dataPP.response_message === "Merchant Details was successfully sent for wallet creation.") {
+                                                    if (dataPP.message === "Merchant Details was successfully sent for wallet creation.") {
                                                         let usertype = accountType === 'Consumer' ? 'USER' : 'MERCHANT'
                                                         const searhDetails = {
                                                             "phone_number": data.phoneNumber1,
@@ -468,7 +470,7 @@ function Authentication () {
 
                                                         setIsLoading(false);
                                                     }
-                                                    if (dataPP.response_message === "Merchant Details was successfully sent for wallet creation.") {
+                                                    if (dataPP.message === "Merchant Details was successfully sent for wallet creation.") {
                                                         let usertype = accountType === 'Consumer' ? 'USER' : 'MERCHANT'
                                                         const searhDetails = {
                                                             "phone_number": data.phoneNumber1,
@@ -542,8 +544,21 @@ function Authentication () {
         }
     }
 
-    const loginUser = (userDetails) => {
-        console.log("alay");
+    const loginUser = async () => {
+        console.log(userDetailCtx.userDetails);
+        const accountType = window.localStorage.getItem("accountType");
+        let usertype = accountType === 'Consumer' ? 'USER' : 'MERCHANT'
+        const userDetails = {
+            user_id:userDetailCtx.userDetails.email_id,
+            password:userDetailCtx.userDetails.password,
+            allow_tokenization:"Y",
+            user_type:usertype,
+            channel_code:"APISNG"
+        }
+
+        console.log(userDetails);
+
+        return {token:"adjcsdvjjijvsmlvsdvksdvjnd"}
     }
 
     const getAccoutBalance = () => {
@@ -556,7 +571,17 @@ function Authentication () {
         }
     }
 
-    const DepositHandler = () => {
+    const DepositHandler = async(event) => {
+        event.preventDefault();
+
+        const token = window.localStorage.getItem("token");
+
+        if(token === "" || token === null || token === undefined){
+            await loginUser()
+            .then((response) => {
+                console.log(response);
+            })
+        }
         
     }
 
@@ -576,7 +601,7 @@ function Authentication () {
                                                 <button onClick={getAccoutBalance} className="btn "><i class="fa fa-eye" aria-hidden="true"></i></button> 
                                             </p>
                                         }
-                                        <h2><b className="">USSD *977*1*VerificationID#</b> </h2>
+                                        <h3><b className="">USSD *977*1*VerificationID#</b> </h3> 
                                         <div className="row">
                                             <div className="col-lg-6 col-md-12">
                                                 <p className="mr-2">Authenticate with </p> 
