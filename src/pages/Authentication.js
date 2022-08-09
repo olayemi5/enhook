@@ -3,7 +3,7 @@ import React, { useRef, useState, useContext } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from 'uuid';
-import { GetDetailsByNIN,AddMerchantData, GetUserByPhone, AddConsumerData, GetDetailsByBVN , ConsumerLogin} from "../services/auth/AuthenticationResource";
+import { GetDetailsByNIN, AddMerchantData, GetUserByPhone, AddConsumerData, GetDetailsByBVN , ConsumerLogin} from "../services/auth/AuthenticationResource";
 import AppCtx from '../context/UserContext'
 import moment from "moment";
 
@@ -15,7 +15,7 @@ function Authentication () {
     const [isLoading, setIsLoading] = useState(false);
     const ninBvn = useRef();
     
-    const ProceedAuthHandler = (event) => {
+     const  ProceedAuthHandler = async (event) => {
         event.preventDefault();
         setIsLoading(true);
 
@@ -102,31 +102,32 @@ function Authentication () {
                             .then(result => {
                                 if (result.isConfirmed) {
                                     let splitValue = data[0].birthdate.split("-")
-                                    const user = {
-                                        channelCode: "APISNG",
-                                        uid: ninBvn.current.value,
-                                        uidType: "NIN",
-                                        reference: "NXG3877585HGTKJHGO",
-                                        title: data[0].title,
-                                        firstName: data[0].firstname,
-                                        middleName: data[0].middlename,
-                                        lastName: data[0].surname,
-                                        userName: data[0].email,
-                                        phone: data[0].telephoneno,
-                                        emailId: data[0].email,
-                                        postalCode: "900110",
-                                        city: "gwarinpa",
-                                        address: "Lagos Estate, Abuja",
-                                        countryOfResidence: "NG",
-                                        tier: "1",
-                                        accountNumber: data[0].telephoneno.substring(1),
-                                        dateOfBirth: `${splitValue[2]}/${splitValue[1]}/${splitValue[0]}`,
-                                        countryOfBirth: data[0].birthcountry === "nigeria" ? "NG" : "NG",
-                                        password: data[0].telephoneno+data[0].telephoneno,
-                                        remarks: "Passed",
-                                        referralCode: data[0].email
-                                    }
+                                    
                                     if(accountType === 'Consumer') {
+                                        const user = {
+                                            channelCode: "APISNG",
+                                            uid: ninBvn.current.value,
+                                            uidType: "NIN",
+                                            reference: "NXG3877585HGTKJHGO",
+                                            title: data[0].title,
+                                            firstName: data[0].firstname,
+                                            middleName: data[0].middlename,
+                                            lastName: data[0].surname,
+                                            userName: data[0].email,
+                                            phone: data[0].telephoneno,
+                                            emailId: data[0].email,
+                                            postalCode: "900110",
+                                            city: "gwarinpa",
+                                            address: "Lagos Estate, Abuja",
+                                            countryOfResidence: "NG",
+                                            tier: "1",
+                                            accountNumber: data[0].telephoneno.substring(1),
+                                            dateOfBirth: `${splitValue[2]}/${splitValue[1]}/${splitValue[0]}`,
+                                            countryOfBirth: data[0].birthcountry === "nigeria" ? "NG" : "NG",
+                                            password: data[0].telephoneno+data[0].telephoneno,
+                                            remarks: "Passed",
+                                            referralCode: data[0].email
+                                        }
                                         AddConsumerData(user)
                                         .then((response) => {
                                             console.log(response);
@@ -154,21 +155,59 @@ function Authentication () {
                                         })
                                     }
                                     else{
-                                        AddMerchantData()
-                                        .then((response) => {
-
+                                        const swalWithBootstrapButtonss = Swal.mixin({
+                                            customClass: {
+                                                confirmButton: 'btn btn-warning text-white m-3',
+                                                cancelButton: 'btn btn-danger m-3'
+                                            },
+                                            buttonsStyling: false
                                         })
-                                         .catch((err) => {
-                                            console.log(err);
-                                            Swal.fire({
-                                                icon: 'error',
-                                                title: 'Oops...',
-                                                text: err.message,
-                                            })
+
+                                        swalWithBootstrapButtonss.fire({
+                                            title: 'Input propose business name and TIN (In comma seperated)',
+                                            input: 'text',
+                                            inputLabel: 'Your details',
+                                            inputPlaceholder: 'AFFCBN HACKERTHONO,09898787676'
+                                        })
+                                        .then((response) => {
+                                            if(response.isConfirmed){
+                                                let splitString = response.value.split(",")
+                                                console.log(splitString)
+
+                                                const merchantData = {
+                                                    channelCode: "APISNG",
+                                                    reference: "01372522-0001",
+                                                    uid: splitString[1],
+                                                    uidType: "TIN",
+                                                    businessName: splitString[0],
+                                                    title: "",
+                                                    dirBvn: ninBvn.current.value,
+                                                    dirFirstName: data[0].firstname,
+                                                    dirMiddleName: data[0].middleName,
+                                                    dirLastName: data[0].lastName,
+                                                    userName: data[0].email,
+                                                    phone: data[0].telephoneno,
+                                                    emailId: data[0].email,
+                                                    postalCode: "900110",
+                                                    city: "gwarinpa",
+                                                    address: "Lagos Estate, Abuja",
+                                                    countryOfResidence: "NG",
+                                                    customerRiskRating: "3",
+                                                    tier: "2",
+                                                    accountNumber: data[0].telephoneno.substring(1),
+                                                    dirDateOfBirth: `${splitValue[2]}/${splitValue[1]}/${splitValue[0]}`,
+                                                    countryOfBirth: "NG",
+                                                    parentWalletAlias: "",
+                                                    password: data[0].telephoneno+data[0].telephoneno,
+                                                    walletCategory: "parent",
+                                                    remarks: "Passed"
+                                                }
+
+                                                console.log(merchantData)
+                                                
+                                            }
                                         })
                                     }
-
-                                    
                                 }
                             })
                             .catch((err) => {
@@ -221,7 +260,7 @@ function Authentication () {
                         "user_type": "USER",
                         "channel_code": "APISNG"
                     }
-                    GetUserByPhone(searchParameter)
+                    GetUserByPhone (searchParameter)
                     .then((response) => {
                         const dataP = response.data;
                         console.log(dataP);
@@ -257,31 +296,31 @@ function Authentication () {
                                     let birthDate = `${splitValue[0]}/${monthInt}/${splitValue[2]}`;
                                     console.log(birthDate);
 
-                                    const user = {
-                                        channelCode: "APISNG",
-                                        uid: ninBvn.current.value,
-                                        uidType: "BVN",
-                                        reference: "NXG3877513HGTKJHGO",
-                                        title: "",
-                                        firstName: data.firstName,
-                                        middleName: data.middleName,
-                                        lastName: data.lastName,
-                                        userName: data.email,
-                                        phone: data.phoneNumber1,
-                                        emailId: data.email,
-                                        postalCode: "900110",
-                                        city: data.stateOfResidence,
-                                        address:  data.residentialAddress,
-                                        countryOfResidence: "NG",
-                                        tier: "2",
-                                        accountNumber: data.phoneNumber1.substring(1),
-                                        dateOfBirth: birthDate,
-                                        countryOfBirth: data.nationality === "Nigeria" ? "NG" : "NG",
-                                        password: data.phoneNumber1+data.phoneNumber1,
-                                        remarks: "Passed",
-                                        referralCode: data.email
-                                    }
                                     if (accountType === 'Consumer') {
+                                        const user = {
+                                            channelCode: "APISNG",
+                                            uid: ninBvn.current.value,
+                                            uidType: "BVN",
+                                            reference: "NXG3877513HGTKJHGO",
+                                            title: "",
+                                            firstName: data.firstName,
+                                            middleName: data.middleName,
+                                            lastName: data.lastName,
+                                            userName: data.email,
+                                            phone: data.phoneNumber1,
+                                            emailId: data.email,
+                                            postalCode: "900110",
+                                            city: data.stateOfResidence,
+                                            address:  data.residentialAddress,
+                                            countryOfResidence: "NG",
+                                            tier: "2",
+                                            accountNumber: data.phoneNumber1.substring(1),
+                                            dateOfBirth: birthDate,
+                                            countryOfBirth: data.nationality === "Nigeria" ? "NG" : "NG",
+                                            password: data.phoneNumber1+data.phoneNumber1,
+                                            remarks: "Passed",
+                                            referralCode: data.email
+                                        }
                                         AddConsumerData(user)
                                         .then((response) => {
                                             console.log(response);
@@ -314,20 +353,90 @@ function Authentication () {
                                             setIsLoading(false);
                                         })
                                     }
-                                }
-                                else{
-                                        AddMerchantData()
-                                        .then((response) => {
+                                    else{
+                                        const swalWithBootstrapButtonss = Swal.mixin({
+                                            customClass: {
+                                                confirmButton: 'btn btn-warning text-white m-3',
+                                                cancelButton: 'btn btn-danger m-3'
+                                            },
+                                            buttonsStyling: false
+                                        })
 
+                                        swalWithBootstrapButtonss.fire({
+                                            title: 'Input propose business name and TIN (In comma seperated)',
+                                            input: 'text',
+                                            inputLabel: 'Your details',
+                                            inputPlaceholder: 'AFFCBN HACKERTHONO,09898787676'
                                         })
-                                         .catch((err) => {
-                                            console.log(err);
-                                            Swal.fire({
-                                                icon: 'error',
-                                                title: 'Oops...',
-                                                text: err.message,
+                                        .then((response) => {
+                                            if(response.isConfirmed){
+                                                let splitString = response.value.split(",")
+                                                console.log(splitString)
+
+                                                const merchantData = {
+                                                    channelCode: "APISNG",
+                                                    reference: "01372599-0001",
+                                                    uid: splitString[1],
+                                                    uidType: "TIN",
+                                                    businessName: splitString[0],
+                                                    title: "",
+                                                    dirBvn: "22148167269",
+                                                    dirFirstName: data.firstName,
+                                                    dirMiddleName: data.middleName,
+                                                    dirLastName: data.lastName,
+                                                    userName: data.email,
+                                                    phone: data.phoneNumber1,
+                                                    emailId: data.email,
+                                                    postalCode: "900110",
+                                                    city: data.stateOfResidence,
+                                                    address:  data.residentialAddress,
+                                                    countryOfResidence: "NG",
+                                                    customerRiskRating: "3",
+                                                    tier: "2",
+                                                    accountNumber: data.phoneNumber1.substring(1),
+                                                    dirDateOfBirth: birthDate,
+                                                    countryOfBirth: "NG",
+                                                    parentWalletAlias: "",
+                                                    password: data.phoneNumber1+data.phoneNumber1,
+                                                    walletCategory: "parent",
+                                                    remarks: "Passed"
+                                                }
+
+                                                console.log(merchantData)
+                                                
+                                                AddMerchantData(merchantData)
+                                                .then((response) => {
+                                                console.log(response);
+                                                let dataPP = response.data;
+                                                if (dataPP.response_message === "Successful Request") {
+                                                    const searhDetails = {
+                                                        "phone_number": data.phoneNumber1,
+                                                        "user_type": "USER",
+                                                        "channel_code": "APISNG"
+                                                    }
+                                                    GetUserByPhone(searhDetails)
+                                                    .then((response) => {
+                                                        const dataPPPp = response.data;
+                                                        console.log(dataPPPp);
+                                                        if (dataPPPp.response_message === "Successful Request") {
+                                                            userDetailCtx.updateUserDetails(dataPPPp.response_data);
+                                                            setIsLoading(false);
+                                                        }
+                                                    })
+                                                    .catch((err) => {
+                                                         Swal.fire({
+                                                            icon: 'error',
+                                                            title: 'Oops...',
+                                                            text: err.message,
+                                                        })
+
+                                                         setIsLoading(false);
+                                                    })
+                                                }
                                             })
+                                            }
                                         })
+                                    }
                                 }
                             })
                             .catch((err) => {
