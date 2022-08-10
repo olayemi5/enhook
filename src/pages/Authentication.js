@@ -579,7 +579,7 @@ function Authentication () {
         return token;
     }
 
-    const WalltDepositHandler = async(event) => {
+    const WalletDepositHandler = async(event) => {
         event.preventDefault();
            
         let token = window.localStorage.getItem("token");
@@ -724,7 +724,7 @@ function Authentication () {
                                             <h3 style={{fontSize:"15px"}}><b className="">USSD *977*2*PIN*AMOUNT# - (Self deposit)</b></h3> 
                                             <h6 style={{fontSize:"15px"}}><b className="">USSD *977*2*PIN*AMOUNT*ADDRESS# - (External deposit)</b></h6>  
                                             <p className="mb-4">Deposit</p> 
-                                            <form onSubmit={WalltDepositHandler}>
+                                            <form onSubmit={WalletDepositHandler}>
                                                 <div className="row">
                                                     <div className="col-md-2">
                                                         <p className="text-center" style={{paddingTop:'15px',lineHeight:'15px',height:'50px', margin:'0px' ,fontSize: "14px", borderRadius:"3px",  boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px'}} ><b>*997*2*</b></p> 
