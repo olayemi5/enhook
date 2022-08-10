@@ -590,7 +590,7 @@ function Authentication () {
                 return response;
             })
         }
-        
+
         if(token) 
         {
             setIsDepositLoading(true);
@@ -674,6 +674,7 @@ function Authentication () {
                                         {   
                                             userDetailCtx.userDetails != null && 
                                             <p style={{padding:'3px',fontSize: "14px", borderRadius:"3px",  boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px'}} className="pull-right">
+                                                <span>USSD: *997*00#</span>
                                                 <b> Account Balance: {isAccountBalanceHidden ? 'X X X X' : balance } </b>
                                                 <button onClick={CheckBalance} className="btn "><i class="fa fa-eye" aria-hidden="true"></i></button> 
                                             </p>
