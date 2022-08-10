@@ -1,5 +1,5 @@
 
-import React, { useRef, useState, useContext } from "react"
+import React, { useRef, useState, useContext, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from 'uuid';
@@ -20,6 +20,10 @@ function Authentication () {
     const amount = useRef();
     const accountNumber = useRef();
     
+    useEffect(() => {
+         window.localStorage.setItem("token","");
+    },[])
+
     const ProceedAuthHandler = async (event) => {
         event.preventDefault();
         setIsLoading(true);
