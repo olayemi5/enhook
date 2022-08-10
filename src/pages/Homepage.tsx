@@ -27,7 +27,7 @@ function Homepage () {
                 </div>
             </div>
             <Authentication />
-            <FooterLayout />
+
         </section>
     )
 }

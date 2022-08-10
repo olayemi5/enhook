@@ -16,7 +16,7 @@ function Authentication () {
     const ninBvn = useRef();
     const amount = useRef();
     
-     const  ProceedAuthHandler = async (event) => {
+    const  ProceedAuthHandler = async (event) => {
         event.preventDefault();
         setIsLoading(true);
 
@@ -79,8 +79,8 @@ function Authentication () {
                         const dataP = response.data;
                         console.log(dataP);
                         if (dataP.response_message === "Successful Request") {
-                            
                             userDetailCtx.updateUserDetails(dataP.response_data);
+                            loginUser();
                             setIsLoading(false);
                         }
                         else{
@@ -143,6 +143,7 @@ function Authentication () {
                                                     console.log(dataPPP);
                                                     if (dataP.response_message === "Successful Request") {
                                                         userDetailCtx.updateUserDetails(dataPPP.response_data);
+                                                        loginUser();
                                                         setIsLoading(false);
                                                     }
                                                 })
@@ -236,6 +237,7 @@ function Authentication () {
                                                             console.log(dataPPPp);
                                                             if (dataPPPp.response_message === "Successful Request") {
                                                                 userDetailCtx.updateUserDetails(dataPPPp.response_data);
+                                                                loginUser();
                                                                 setIsLoading(false);
                                                             }
                                                         })
@@ -278,6 +280,7 @@ function Authentication () {
 
                 setIsLoading(false);
             })
+
         }
 
         if(selectMeans === "BVN") {
@@ -314,6 +317,7 @@ function Authentication () {
                         console.log(dataP);
                         if (dataP.response_message === "Successful Request") {
                             userDetailCtx.updateUserDetails(dataP.response_data);
+                            loginUser();
                             setIsLoading(false);
                         }
                         else{
@@ -388,6 +392,7 @@ function Authentication () {
                                                     console.log(dataPPP);
                                                     if (dataPPP.response_message === "Successful Request") {
                                                         userDetailCtx.updateUserDetails(dataPPP.response_data);
+                                                        loginUser();
                                                         setIsLoading(false);
                                                     }
                                                 })
@@ -483,6 +488,7 @@ function Authentication () {
                                                             console.log(dataPPPp);
                                                             if (dataPPPp.response_message === "Successful Request") {
                                                                 userDetailCtx.updateUserDetails(dataPPPp.response_data);
+                                                                loginUser();
                                                                 setIsLoading(false);
                                                             }
                                                         })
@@ -550,15 +556,25 @@ function Authentication () {
         let usertype = accountType === 'Consumer' ? 'USER' : 'MERCHANT'
         const userDetails = {
             user_id:userDetailCtx.userDetails.email_id,
-            password:userDetailCtx.userDetails.password,
+            password:userDetailCtx.userDetails.phone+userDetailCtx.userDetails.phone,
             allow_tokenization:"Y",
             user_type:usertype,
             channel_code:"APISNG"
         }
 
-        console.log(userDetails);
+       const token = await ConsumerLogin(userDetails)
+        .then((response) => {
+            if(response.data.response_data.token != null || response.data.response_data.token != "" || response.data.response_data.token != undefined) {
+                window.localStorage.setItem("token",response.data.response_data.token);
 
-        return {token:"adjcsdvjjijvsmlvsdvksdvjnd"}
+                return response.data.response_data.token;
+            }
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+
+      return token;
     }
 
     const getAccoutBalance = () => {
@@ -573,15 +589,22 @@ function Authentication () {
 
     const DepositHandler = async(event) => {
         event.preventDefault();
+        setIsLoading(true);
 
         const token = window.localStorage.getItem("token");
 
         if(token === "" || token === null || token === undefined){
             await loginUser()
             .then((response) => {
-                console.log(response);
+                if(response) {
+                    const depositData = {
+                        
+                    }
+                }
             })
         }
+
+        setIsLoading(false);
         
     }
 

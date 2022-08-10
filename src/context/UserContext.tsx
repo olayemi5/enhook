@@ -18,6 +18,7 @@ export function UserDetailsProvider(props: any) {
 
     function clearUserSession() {
         setUserDetails(null);
+        window.localStorage.setItem("token","");
     }
 
     const context: AppContext = {

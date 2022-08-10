@@ -1,4 +1,5 @@
 import React from "react";
+import FooterLayout from "./FooterLayout";
 import MainNavigation from "./MainNavigation";
 
 function MainLayout (props: any) {
@@ -8,6 +9,7 @@ function MainLayout (props: any) {
              <div className="layout-content">
                 {props.children}
              </div>
+             <FooterLayout />
         </section>
     )
 }

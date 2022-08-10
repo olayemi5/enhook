@@ -50,7 +50,7 @@ const ConsumerLogin = async ( consumerLogin: any) => {
         method : "POST",
         url: `https://rgw.k8s.apis.ng/centric-platforms/uat/CAMLLogin`,
         data: consumerLogin,
-        headers: header
+        headers: CreateHeader
      })
 
     return response;
