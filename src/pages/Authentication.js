@@ -13,6 +13,8 @@ function Authentication () {
     window.localStorage.setItem('currentPage', "Auth");
     const userDetailCtx = useContext(AppCtx);
     const [isLoading, setIsLoading] = useState(false);
+    const [balance, setBalance] = useState("");
+    const [isAccountBalanceHidden, setIsAccountBalanceHidden] = useState(true);
     const [isDepositLoading, setIsDepositLoading] = useState(false);
     const ninBvn = useRef();
     const amount = useRef();
@@ -546,16 +548,6 @@ function Authentication () {
         }
     }
 
-    const getAccoutBalance = () => {
-        const token = window.localStorage.getItem("token");
-        if(token === null || token === undefined || token === "") {
-            const userLoginDetails = {
-
-            }
-            loginUser(userLoginDetails);
-        }
-    }
-    
     const loginUser = async () => {
         console.log(userDetailCtx.userDetails);
         const accountType = window.localStorage.getItem("accountType");
@@ -628,13 +620,33 @@ function Authentication () {
         }
     }
 
-    const CheckBalance = (event) => {
+    const CheckBalance = async (event) => {
         event.preventDefault();
-
-        const token = window.localStorage.getItem("token");
-
-        if(token === "" || token === null || token === undefined){
-
+           
+        const token = await loginUser()
+            .then((response) => {
+                return response;
+            })
+        
+        if(token) {
+            const accountType = window.localStorage.getItem("accountType");
+            let usertype = accountType === 'Consumer' ? 'USER' : 'MERCHANT';
+            const userDetails = {
+                user_email: userDetailCtx.userDetails.email_id,
+                user_token:token,
+                user_type: usertype,
+                channel_code: "APISNG"
+            }
+            console.log(userDetails)
+            GetBalance(userDetails)
+            .then((response) => {
+                if(response.data) {
+                    console.log(response.data)
+                    console.log(response.data.wallet_balance);
+                    setBalance(response.data.wallet_balance);
+                    setIsAccountBalanceHidden(false);
+                }
+            })
         }
        
     }
@@ -651,8 +663,8 @@ function Authentication () {
                                         {   
                                             userDetailCtx.userDetails != null && 
                                             <p style={{padding:'3px',fontSize: "14px", borderRadius:"3px",  boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px'}} className="pull-right">
-                                                <b> Account Balance: X X X X </b>
-                                                <button onClick={getAccoutBalance} className="btn "><i class="fa fa-eye" aria-hidden="true"></i></button> 
+                                                <b> Account Balance: {isAccountBalanceHidden ? 'X X X X' : balance } </b>
+                                                <button onClick={CheckBalance} className="btn "><i class="fa fa-eye" aria-hidden="true"></i></button> 
                                             </p>
                                         }
                                         <h3><b className="">USSD *977*1*VerificationID#</b> </h3> 
@@ -697,13 +709,18 @@ function Authentication () {
                                     </div>
                                     {   userDetailCtx.userDetails &&
                                         <div className="login-form mt-3" style={{boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'}}>
-                                            <h3 style={{fontSize:"15px"}}><b className="">USSD *977*2*AMOUNT# - (Self deposit)</b></h3> 
-                                            <h6 style={{fontSize:"15px"}}><b className="">USSD *977*2*AMOUNT*ADDRESS# - (External deposit)</b></h6>  
+                                            <h3 style={{fontSize:"15px"}}><b className="">USSD *977*2*PIN*AMOUNT# - (Self deposit)</b></h3> 
+                                            <h6 style={{fontSize:"15px"}}><b className="">USSD *977*2*PIN*AMOUNT*ADDRESS# - (External deposit)</b></h6>  
                                             <p className="mb-4">Deposit</p> 
                                             <form onSubmit={WalltDepositHandler}>
                                                 <div className="row">
-                                                    <div className="col-md-3">
+                                                    <div className="col-md-2">
                                                         <p className="text-center" style={{paddingTop:'15px',lineHeight:'15px',height:'50px', margin:'0px' ,fontSize: "14px", borderRadius:"3px",  boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px'}} ><b>* 9 9 7 * 2 *</b></p> 
+                                                    </div>
+                                                    <div className="col-md-2">
+                                                         <div className="form-group"><input required type="text" className="form-control"
+                                                            placeholder="Pin" />
+                                                        </div>
                                                     </div>
                                                     <div className="col-md-3">
                                                          <div className="form-group"><input required type="text" ref={amount} className="form-control"
@@ -713,9 +730,9 @@ function Authentication () {
                                                     <div className="col-md-1">
                                                          <p style={{paddingTop:'15px',lineHeight:'15px',height:'50px', margin:'0px' ,fontSize: "14px", borderRadius:"3px",  boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px'}} ><b>(*)</b></p> 
                                                     </div>
-                                                    <div className="col-md-4">
-                                                         <div className="form-group"><input  type="text" ref={accountNumber} className="form-control"
-                                                            placeholder="Account No." />
+                                                    <div className="col-md-3">
+                                                         <div className="form-group"><input type="text" ref={accountNumber} className="form-control"
+                                                            placeholder="Address." />
                                                         </div>
                                                     </div>
                                                     <div className="col-md-1">
