@@ -3,7 +3,7 @@ import React, { useRef, useState, useContext } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from 'uuid';
-import { GetDetailsByNIN, CreateDeposit, AddMerchantData, GetUserByPhone, AddConsumerData, GetDetailsByBVN , ConsumerLogin} from "../services/auth/AuthenticationResource";
+import { GetDetailsByNIN, CreateWalltDeposit, GetBalance, AddMerchantData, GetUserByPhone, AddConsumerData, GetDetailsByBVN , ConsumerLogin} from "../services/auth/AuthenticationResource";
 import AppCtx from '../context/UserContext'
 import moment from "moment";
 
@@ -583,51 +583,60 @@ function Authentication () {
         return token;
     }
 
-    const DepositHandler = async(event) => {
+    const WalltDepositHandler = async(event) => {
+        event.preventDefault();
+           
+        const token = await loginUser()
+            .then((response) => {
+                return response;
+            })
+
+        if(token) 
+        {
+            setIsDepositLoading(true);
+            const accountType = window.localStorage.getItem("accountType");
+            let usertype = accountType === 'Consumer' ? 'USER' : 'MERCHANT';
+            let accountNumberToDeposit = accountNumber.current?.value != "" ? accountNumber.current?.value : userDetailCtx.userDetails.wallet_info.wallet_alias;
+            
+            const depositData = {
+                channel_code: "APISNG",
+                user_type: usertype,
+                user_email: userDetailCtx.userDetails.email_id,
+                user_token: token,
+                destination_wallet_alias: accountNumberToDeposit,
+                amount: amount.current?.value,
+                reference: "NXG1655g43T7H5K47856456",
+                narration: "AFF Testing USSD",
+            }
+
+            CreateWalltDeposit(depositData)
+            .then((response) => {
+                console.log(response);
+                if(response.data.response_message === "Successful Request") {
+                    Swal.fire('Deposit Initaited Successfully');
+                    setIsDepositLoading(false);
+                }
+                else{
+                    Swal.fire(response.data.response_data.Data.message);
+                    setIsDepositLoading(false);
+                }
+            })
+        }
+        else{
+            Swal.fire('Unable to get user token');
+            setIsDepositLoading(false);
+        }
+    }
+
+    const CheckBalance = (event) => {
         event.preventDefault();
 
         const token = window.localStorage.getItem("token");
 
         if(token === "" || token === null || token === undefined){
-            setIsDepositLoading(true);
-            await loginUser()
-            .then((response) => {
-                if(response) {
-                    const accountType = window.localStorage.getItem("accountType");
-                    let usertype = accountType === 'Consumer' ? 'USER' : 'MERCHANT';
-                    let accountNumberToDeposit = accountNumber.current?.value != "" ? accountNumber.current?.value : userDetailCtx.userDetails.phone.substring(1);
-                    
-                    const depositData = {
-                        user_id: "thelmaaa",
-                        user_type: usertype,
-                        user_email: userDetailCtx.userDetails.email_id,
-                        user_token: response,
-                        account_no: accountNumberToDeposit,
-                        amount: amount.current?.value,
-                        reference: "NXG1655g43T7H5K47856879",
-                        narration: "AFF Testing USSD",
-                        channel_code: "APISNG"
-                    }
 
-                    CreateDeposit(depositData)
-                    .then((response) => {
-                        console.log(response);
-                        if(response.data.response_message === "Successful Request") {
-                            Swal.fire('Deposit Initaited Successfully');
-                            setIsDepositLoading(false);
-                        }
-                        else{
-                            Swal.fire(response.data.response_message);
-                            setIsDepositLoading(false);
-                        }
-                    })
-                }
-                else{
-                    Swal.fire('Unable to get user token');
-                    setIsDepositLoading(false);
-                }
-            })
         }
+       
     }
 
     return (
@@ -689,9 +698,9 @@ function Authentication () {
                                     {   userDetailCtx.userDetails &&
                                         <div className="login-form mt-3" style={{boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'}}>
                                             <h3 style={{fontSize:"15px"}}><b className="">USSD *977*2*AMOUNT# - (Self deposit)</b></h3> 
-                                            <h6 style={{fontSize:"15px"}}><b className="">USSD *977*2*AMOUNT*ACCOUNTNO# - (External deposit)</b></h6>  
+                                            <h6 style={{fontSize:"15px"}}><b className="">USSD *977*2*AMOUNT*ADDRESS# - (External deposit)</b></h6>  
                                             <p className="mb-4">Deposit</p> 
-                                            <form onSubmit={DepositHandler}>
+                                            <form onSubmit={WalltDepositHandler}>
                                                 <div className="row">
                                                     <div className="col-md-3">
                                                         <p className="text-center" style={{paddingTop:'15px',lineHeight:'15px',height:'50px', margin:'0px' ,fontSize: "14px", borderRadius:"3px",  boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px'}} ><b>* 9 9 7 * 2 *</b></p> 
