@@ -585,17 +585,18 @@ function Authentication () {
 
     const DepositHandler = async(event) => {
         event.preventDefault();
-        setIsDepositLoading(true);
 
         const token = window.localStorage.getItem("token");
 
         if(token === "" || token === null || token === undefined){
+            setIsDepositLoading(true);
             await loginUser()
             .then((response) => {
                 if(response) {
                     const accountType = window.localStorage.getItem("accountType");
                     let usertype = accountType === 'Consumer' ? 'USER' : 'MERCHANT';
-                    const accountNumberToDeposit = accountNumber.current?.value != null ? accountNumber.current?.value : userDetailCtx.userDetails.phone.splice(1);
+                    let accountNumberToDeposit = accountNumber.current?.value != "" ? accountNumber.current?.value : userDetailCtx.userDetails.phone.substring(1);
+                    
                     const depositData = {
                         user_id: "thelmaaa",
                         user_type: usertype,
@@ -627,9 +628,6 @@ function Authentication () {
                 }
             })
         }
-
-        
-        
     }
 
     return (
@@ -704,7 +702,7 @@ function Authentication () {
                                                         </div>
                                                     </div>
                                                     <div className="col-md-1">
-                                                         <p style={{paddingTop:'15px',lineHeight:'15px',height:'50px', margin:'0px' ,fontSize: "14px", borderRadius:"3px",  boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px'}} ><b>*</b></p> 
+                                                         <p style={{paddingTop:'15px',lineHeight:'15px',height:'50px', margin:'0px' ,fontSize: "14px", borderRadius:"3px",  boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px'}} ><b>(*)</b></p> 
                                                     </div>
                                                     <div className="col-md-4">
                                                          <div className="form-group"><input  type="text" ref={accountNumber} className="form-control"
