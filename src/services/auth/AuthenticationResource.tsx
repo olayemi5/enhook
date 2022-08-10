@@ -56,6 +56,18 @@ const ConsumerLogin = async ( consumerLogin: any) => {
     return response;
 }
 
+const CreateDeposit = async ( depositData: any) => {
+     const response = await axios({
+        method : "POST",
+        url: `https://rgw.k8s.apis.ng/centric-platforms/uat/CreateDeposit`,
+        data: depositData,
+        headers: CreateHeader
+     })
+
+    return response;
+}
+
+
 const GetUserByPhone = async (userDetails: any) => {
    const response = await axios({
         method : "POST",
@@ -89,4 +101,4 @@ const GetDetailsByBVN = async (searchParams: any) => {
      return response;
 }
 
-export { AddConsumerData,AddMerchantData, ConsumerLogin, GetUserByPhone, GetDetailsByNIN ,GetDetailsByBVN} 
+export { AddConsumerData,AddMerchantData, ConsumerLogin, CreateDeposit, GetUserByPhone, GetDetailsByNIN ,GetDetailsByBVN} 

@@ -3,7 +3,7 @@ import React, { useRef, useState, useContext } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from 'uuid';
-import { GetDetailsByNIN, AddMerchantData, GetUserByPhone, AddConsumerData, GetDetailsByBVN , ConsumerLogin} from "../services/auth/AuthenticationResource";
+import { GetDetailsByNIN, CreateDeposit, AddMerchantData, GetUserByPhone, AddConsumerData, GetDetailsByBVN , ConsumerLogin} from "../services/auth/AuthenticationResource";
 import AppCtx from '../context/UserContext'
 import moment from "moment";
 
@@ -15,6 +15,7 @@ function Authentication () {
     const [isLoading, setIsLoading] = useState(false);
     const ninBvn = useRef();
     const amount = useRef();
+    const accountNumber = useRef();
     
     const  ProceedAuthHandler = async (event) => {
         event.preventDefault();
@@ -80,7 +81,6 @@ function Authentication () {
                         console.log(dataP);
                         if (dataP.response_message === "Successful Request") {
                             userDetailCtx.updateUserDetails(dataP.response_data);
-                            loginUser();
                             setIsLoading(false);
                         }
                         else{
@@ -143,7 +143,6 @@ function Authentication () {
                                                     console.log(dataPPP);
                                                     if (dataP.response_message === "Successful Request") {
                                                         userDetailCtx.updateUserDetails(dataPPP.response_data);
-                                                        loginUser();
                                                         setIsLoading(false);
                                                     }
                                                 })
@@ -237,7 +236,6 @@ function Authentication () {
                                                             console.log(dataPPPp);
                                                             if (dataPPPp.response_message === "Successful Request") {
                                                                 userDetailCtx.updateUserDetails(dataPPPp.response_data);
-                                                                loginUser();
                                                                 setIsLoading(false);
                                                             }
                                                         })
@@ -317,7 +315,6 @@ function Authentication () {
                         console.log(dataP);
                         if (dataP.response_message === "Successful Request") {
                             userDetailCtx.updateUserDetails(dataP.response_data);
-                            loginUser();
                             setIsLoading(false);
                         }
                         else{
@@ -392,7 +389,6 @@ function Authentication () {
                                                     console.log(dataPPP);
                                                     if (dataPPP.response_message === "Successful Request") {
                                                         userDetailCtx.updateUserDetails(dataPPP.response_data);
-                                                        loginUser();
                                                         setIsLoading(false);
                                                     }
                                                 })
@@ -488,7 +484,6 @@ function Authentication () {
                                                             console.log(dataPPPp);
                                                             if (dataPPPp.response_message === "Successful Request") {
                                                                 userDetailCtx.updateUserDetails(dataPPPp.response_data);
-                                                                loginUser();
                                                                 setIsLoading(false);
                                                             }
                                                         })
@@ -550,6 +545,18 @@ function Authentication () {
         }
     }
 
+    
+
+    const getAccoutBalance = () => {
+        const token = window.localStorage.getItem("token");
+        if(token === null || token === undefined || token === "") {
+            const userLoginDetails = {
+
+            }
+            loginUser(userLoginDetails);
+        }
+    }
+    
     const loginUser = async () => {
         console.log(userDetailCtx.userDetails);
         const accountType = window.localStorage.getItem("accountType");
@@ -562,29 +569,19 @@ function Authentication () {
             channel_code:"APISNG"
         }
 
-       const token = await ConsumerLogin(userDetails)
-        .then((response) => {
-            if(response.data.response_data.token != null || response.data.response_data.token != "" || response.data.response_data.token != undefined) {
-                window.localStorage.setItem("token",response.data.response_data.token);
+        const token = await ConsumerLogin(userDetails)
+            .then((response) => {
+                if(response.data.response_data.token != null || response.data.response_data.token != "" || response.data.response_data.token != undefined) {
+                    window.localStorage.setItem("token",response.data.response_data.token);
 
-                return response.data.response_data.token;
-            }
-        })
-        .catch((err) => {
-            console.log(err)
-        })
+                    return response.data.response_data.token;
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
 
-      return token;
-    }
-
-    const getAccoutBalance = () => {
-        const token = window.localStorage.getItem("token");
-        if(token === null || token === undefined || token === "") {
-            const userLoginDetails = {
-
-            }
-            loginUser(userLoginDetails);
-        }
+        return token;
     }
 
     const DepositHandler = async(event) => {
@@ -597,9 +594,29 @@ function Authentication () {
             await loginUser()
             .then((response) => {
                 if(response) {
+                    const accountType = window.localStorage.getItem("accountType");
+                    let usertype = accountType === 'Consumer' ? 'USER' : 'MERCHANT';
+                    const accountNumber = accountNumber.current?.value != null ? accountNumber.current?.value : userDetailCtx.userDetails.phone.splice(1);
                     const depositData = {
-                        
+                        user_id: "thelmaaa",
+                        user_type: usertype,
+                        user_email: userDetailCtx.userDetails.email_id,
+                        user_token: response,
+                        account_no: accountNumber,
+                        amount: amount.current?.value,
+                        reference: "NXG1655g43T7H5K47856879",
+                        narration: "AFF Testing USSD",
+                        channel_code: "APISNG"
                     }
+
+                    CreateDeposit(depositData)
+                    .then((response) => {
+                        console.log(response);
+                        
+                    })
+                }
+                else{
+                    Swal.fire('Unable to get user token');
                 }
             })
         }
@@ -640,7 +657,7 @@ function Authentication () {
                                         <form onSubmit={ProceedAuthHandler}>
                                             <div className="row">
                                                 <div className="col-md-3">
-                                                    <p className="text-center" style={{paddingTop:'15px',lineHeight:'15px',height:'50px', margin:'0px' ,fontSize: "14px", borderRadius:"3px",  boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px'}} ><b>* 9 9 7 * 1</b></p> 
+                                                    <p className="text-center" style={{paddingTop:'15px',lineHeight:'15px',height:'50px', margin:'0px' ,fontSize: "14px", borderRadius:"3px",  boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px'}} ><b>* 9 9 7 * 1 *</b></p> 
                                                 </div>
                                                 <div className="col-md-8">
                                                      <div className="form-group"><input ref={ninBvn} disabled={userDetailCtx.userDetails != null} required type="text" className="form-control"
@@ -648,7 +665,7 @@ function Authentication () {
                                                     </div>
                                                 </div>
                                                 <div className="col-md-1">
-                                                         <p style={{paddingTop:'15px',lineHeight:'15px',height:'50px', margin:'0px' ,fontSize: "14px", borderRadius:"3px",  boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px'}} ><b>#</b></p> 
+                                                    <p style={{paddingTop:'15px',lineHeight:'15px',height:'50px', margin:'0px' ,fontSize: "14px", borderRadius:"3px",  boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px'}} ><b>#</b></p> 
                                                 </div>
                                             </div>
                                            
@@ -666,16 +683,25 @@ function Authentication () {
                                     </div>
                                     {   userDetailCtx.userDetails &&
                                         <div className="login-form mt-3" style={{boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'}}>
-                                            <h2 style={{fontSize:"25px"}}><b className="">USSD *977*2*AMOUNT#</b></h2> 
-                                            <p className="mb-4">Deposit</p>
+                                            <h3 style={{fontSize:"15px"}}><b className="">USSD *977*2*AMOUNT# - (Self deposit)</b></h3> 
+                                            <h6 style={{fontSize:"15px"}}><b className="">USSD *977*2*AMOUNT*ACCOUNTNO# - (External deposit)</b></h6>  
+                                            <p className="mb-4">Deposit</p> 
                                             <form onSubmit={DepositHandler}>
                                                 <div className="row">
                                                     <div className="col-md-3">
-                                                        <p className="text-center" style={{paddingTop:'15px',lineHeight:'15px',height:'50px', margin:'0px' ,fontSize: "14px", borderRadius:"3px",  boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px'}} ><b>* 9 9 7 * 2</b></p> 
+                                                        <p className="text-center" style={{paddingTop:'15px',lineHeight:'15px',height:'50px', margin:'0px' ,fontSize: "14px", borderRadius:"3px",  boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px'}} ><b>* 9 9 7 * 2 *</b></p> 
                                                     </div>
-                                                    <div className="col-md-8">
+                                                    <div className="col-md-3">
                                                          <div className="form-group"><input required type="text" ref={amount} className="form-control"
                                                             placeholder="Amount" />
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-md-1">
+                                                         <p style={{paddingTop:'15px',lineHeight:'15px',height:'50px', margin:'0px' ,fontSize: "14px", borderRadius:"3px",  boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px'}} ><b>*</b></p> 
+                                                    </div>
+                                                    <div className="col-md-4">
+                                                         <div className="form-group"><input  type="text" ref={accountNumber} className="form-control"
+                                                            placeholder="Account No." />
                                                         </div>
                                                     </div>
                                                     <div className="col-md-1">
