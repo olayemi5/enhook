@@ -715,7 +715,7 @@ function Authentication () {
                                             <form onSubmit={WalltDepositHandler}>
                                                 <div className="row">
                                                     <div className="col-md-2">
-                                                        <p className="text-center" style={{paddingTop:'15px',lineHeight:'15px',height:'50px', margin:'0px' ,fontSize: "14px", borderRadius:"3px",  boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px'}} ><b>* 9 9 7 * 2 *</b></p> 
+                                                        <p className="text-center" style={{paddingTop:'15px',lineHeight:'15px',height:'50px', margin:'0px' ,fontSize: "14px", borderRadius:"3px",  boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px'}} ><b>*997*2*</b></p> 
                                                     </div>
                                                     <div className="col-md-2">
                                                          <div className="form-group"><input required type="text" className="form-control"
