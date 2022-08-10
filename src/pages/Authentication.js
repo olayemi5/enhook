@@ -582,11 +582,15 @@ function Authentication () {
     const WalltDepositHandler = async(event) => {
         event.preventDefault();
            
-        const token = await loginUser()
-            .then((response) => {
+        let token = window.localStorage.getItem("token");
+        
+        if(token == null || token === "") {
+            token = await loginUser()
+                .then((response) => {
                 return response;
             })
-
+        }
+        
         if(token) 
         {
             setIsDepositLoading(true);
@@ -626,12 +630,16 @@ function Authentication () {
 
     const CheckBalance = async (event) => {
         event.preventDefault();
-           
-        const token = await loginUser()
-            .then((response) => {
+        
+        let token = window.localStorage.getItem("token");
+        
+        if(token == null || token === "") {
+            token = await loginUser()
+                .then((response) => {
                 return response;
             })
-        
+        }
+
         if(token) {
             const accountType = window.localStorage.getItem("accountType");
             let usertype = accountType === 'Consumer' ? 'USER' : 'MERCHANT';
@@ -645,9 +653,8 @@ function Authentication () {
             GetBalance(userDetails)
             .then((response) => {
                 if(response.data) {
-                    console.log(response.data)
-                    console.log(response.data.wallet_balance);
-                    setBalance(response.data.wallet_balance);
+                    console.log(response.data.response_data.wallet_balance);
+                    setBalance(response.data.response_data.wallet_balance);
                     setIsAccountBalanceHidden(false);
                 }
             })
