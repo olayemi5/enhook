@@ -13,11 +13,12 @@ function Authentication () {
     window.localStorage.setItem('currentPage', "Auth");
     const userDetailCtx = useContext(AppCtx);
     const [isLoading, setIsLoading] = useState(false);
+    const [isDepositLoading, setIsDepositLoading] = useState(false);
     const ninBvn = useRef();
     const amount = useRef();
     const accountNumber = useRef();
     
-    const  ProceedAuthHandler = async (event) => {
+    const ProceedAuthHandler = async (event) => {
         event.preventDefault();
         setIsLoading(true);
 
@@ -584,7 +585,7 @@ function Authentication () {
 
     const DepositHandler = async(event) => {
         event.preventDefault();
-        setIsLoading(true);
+        setIsDepositLoading(true);
 
         const token = window.localStorage.getItem("token");
 
@@ -594,13 +595,13 @@ function Authentication () {
                 if(response) {
                     const accountType = window.localStorage.getItem("accountType");
                     let usertype = accountType === 'Consumer' ? 'USER' : 'MERCHANT';
-                    const accountNumber = accountNumber.current?.value != null ? accountNumber.current?.value : userDetailCtx.userDetails.phone.splice(1);
+                    const accountNumberToDeposit = accountNumber.current?.value != null ? accountNumber.current?.value : userDetailCtx.userDetails.phone.splice(1);
                     const depositData = {
                         user_id: "thelmaaa",
                         user_type: usertype,
                         user_email: userDetailCtx.userDetails.email_id,
                         user_token: response,
-                        account_no: accountNumber,
+                        account_no: accountNumberToDeposit,
                         amount: amount.current?.value,
                         reference: "NXG1655g43T7H5K47856879",
                         narration: "AFF Testing USSD",
@@ -610,16 +611,24 @@ function Authentication () {
                     CreateDeposit(depositData)
                     .then((response) => {
                         console.log(response);
-
+                        if(response.data.response_message === "Successful Request") {
+                            Swal.fire('Deposit Initaited Successfully');
+                            setIsDepositLoading(false);
+                        }
+                        else{
+                            Swal.fire(response.data.response_message);
+                            setIsDepositLoading(false);
+                        }
                     })
                 }
                 else{
                     Swal.fire('Unable to get user token');
+                    setIsDepositLoading(false);
                 }
             })
         }
 
-        setIsLoading(false);
+        
         
     }
 
@@ -669,13 +678,13 @@ function Authentication () {
                                            
                                             { isLoading ? <section>
                                                 <button disabled >Dailing...</button>
-                                            </section> :
-                                            <section>
-                                                {   userDetailCtx.userDetails != null ? "" :
-                                                    <button type="submit"><i className="fa fa-phone"></i> Dial</button>
-                                                }
-                                                
-                                            </section>
+                                                </section> :
+                                                <section>
+                                                    {   userDetailCtx.userDetails != null ? "" :
+                                                        <button type="submit"><i className="fa fa-phone"></i> Dial</button>
+                                                    }
+                                                    
+                                                </section>
                                             }
                                         </form>
                                     </div>
@@ -707,7 +716,7 @@ function Authentication () {
                                                     </div>
                                                 </div>
                                                 
-                                                { isLoading ? <section>
+                                                { isDepositLoading ? <section>
                                                     <button disabled >Dailing...</button>
                                                 </section> :
                                                     <button type="submit"><i className="fa fa-phone"></i> Dial</button>
