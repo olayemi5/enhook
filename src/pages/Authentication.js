@@ -168,7 +168,7 @@ function Authentication () {
                                         })
 
                                         swalWithBootstrapButtonss.fire({
-                                            title: 'Input propose business name and TIN (In comma seperated)',
+                                            title: 'Input Business Name and TIN (separate by comma)',
                                             input: 'text',
                                             inputLabel: 'Your details',
                                             inputPlaceholder: 'AFFCBN HACKERTHONO,09898787676'
@@ -415,7 +415,7 @@ function Authentication () {
                                         })
 
                                         swalWithBootstrapButtonss.fire({
-                                            title: 'Input propose business name and TIN (In comma seperated)',
+                                            title: 'Input Business Name and TIN (separate by comma)',
                                             input: 'text',
                                             inputLabel: 'Your details',
                                             inputPlaceholder: 'AFFCBN HACKERTHONO,09898787676'
@@ -545,8 +545,6 @@ function Authentication () {
         }
     }
 
-    
-
     const getAccoutBalance = () => {
         const token = window.localStorage.getItem("token");
         if(token === null || token === undefined || token === "") {
@@ -612,7 +610,7 @@ function Authentication () {
                     CreateDeposit(depositData)
                     .then((response) => {
                         console.log(response);
-                        
+
                     })
                 }
                 else{
