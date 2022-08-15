@@ -780,9 +780,9 @@ function Authentication () {
                                                 </div>
                                             </div>
                                             <div className="form-group m-3">
-                                                <h3 style={{color:'#401c69'}}>Wallet Address:</h3>
+                                                <h3 style={{color:'#401c69'}}>Wallet Alias:</h3>
                                                 <div className="p-4" style={{boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'}}>
-                                                    {userDetailCtx.userDetails.wallet_info && userDetailCtx.userDetails.wallet_info.wallet_address}
+                                                    {userDetailCtx.userDetails.wallet_info && userDetailCtx.userDetails.wallet_info.wallet_alias}
                                                 </div>
                                             </div>
                                             <div className="form-group m-3">
