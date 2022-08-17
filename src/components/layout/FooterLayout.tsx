@@ -8,13 +8,12 @@ function FooterLayout() {
                 <div className="container">
                     <div className="row justify-content-center">
                     <div className="col-lg-4 col-sm-6 col-md-6">
-                        <div className="single-footer-widget"><a href="index-2.html" className="d-inline-block logo"><img
-                            src="../images/logo.png" alt="logo" /></a>
+                        <div className="single-footer-widget"><a href="index-2.html" className="d-inline-block logo"><img style={{width:'68px'}} src="https://www.dignited.com/wp-content/uploads/2021/10/e-naira-CBN.jpg"></img></a>
                         <div className="newsletter-form">
                             <p>SUBSCRIBE TO OUR NEWSLETTER</p>
                             <form data-toggle="validator"><input type="email" className="input-newsletter"
                                 placeholder="Enter your email" name="EMAIL" required  autoComplete="off" /><button
-                                type="submit">Subscribe Now <i className="fa fa-envelope-o"></i></button>
+                                type="submit" style={{backgroundColor:'#16780d'}}>Subscribe Now <i className="fa fa-envelope-o"></i></button>
                             <div id="validator-newsletter" className="form-result"></div>
                             </form>
                         </div>
@@ -40,9 +39,9 @@ function FooterLayout() {
                         <div className="single-footer-widget pl-5">
                             <h3>Resources</h3>
                             <ul className="quick-links">
-                                <li><Link to="https://novis-ts.envytheme.com/trade/">Trade</Link></li>
-                                <li><Link to="https://novis-ts.envytheme.com/guides/">Guides</Link></li>
-                                <li><Link to="https://novis-ts.envytheme.com/wallet/">Wallets</Link></li>
+                                <li><Link to="/">Trade</Link></li>
+                                <li><Link to="/">Guides</Link></li>
+                                <li><Link to="/">Wallets</Link></li>
                             </ul>
                         </div>
                     </div>
@@ -61,7 +60,7 @@ function FooterLayout() {
                 </div>
                 <div className="copyright-area">
                     <div className="container">
-                    <p>Copyright 2021 <strong>AFF</strong>. All Rights Reserved by</p>
+                    <p>Copyright 2022 <strong style={{color:'#126b0a'}}>AFF</strong>. All Rights Reserved by</p>
                     </div>
                 </div>
             </footer>

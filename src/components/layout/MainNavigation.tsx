@@ -14,7 +14,9 @@ function MainNavigation () {
                 <div className="container">
                 <div className="raimo-responsive-menu">
                     <div className="hamburger-menu"><i className="bx bx-menu"></i></div>
-                    <div className="container"><Link className="navbar-brand" to={'/'}><b><span style={{color:"#05294d", fontSize:"30px"}}>e</span><span style={{color:"#24588c", fontSize:"30px"}}>NAIRA</span></b></Link></div>
+                    <div className="container">
+                        <Link className="navbar-brand" to={'/'}><b><span><img src="https://www.dignited.com/wp-content/uploads/2021/10/e-naira-CBN.jpg"></img></span><span style={{color:"#24588c", fontSize:"30px"}}>NAIRA</span></b></Link>
+                    </div>
                     <div className="responsive-others-option">
                     <div className="d-flex align-items-center">
                         <div className="option-item"><a className="login-btn"><i
@@ -28,7 +30,7 @@ function MainNavigation () {
                 </div>
             </div>
             <nav className="navbar navbar-expand-md navbar-light hide-menu">
-                <div className="container"><Link className="navbar-brand" to={'/'}><b><span style={{color:"#05294d", fontSize:"30px"}}>e</span><span style={{color:"#24588c", fontSize:"30px"}}>NAIRA</span></b></Link>
+                <div className="container"><Link className="navbar-brand" to={'/'}><b><span><img style={{width:'68px'}} src="https://www.dignited.com/wp-content/uploads/2021/10/e-naira-CBN.jpg"></img></span><span style={{color:"black", fontSize:"25px", paddingTop:'10px'}}>NAIRA</span></b></Link>
                 <div className="collapse navbar-collapse mean-menu">
                     <div className="others-option">
                         <div className="d-flex align-items-center">
@@ -37,7 +39,7 @@ function MainNavigation () {
                                     userDetailsCtx?.userDetails != null ?
                                     <section>
                                         <Link className="" to="/"><i className="fa fa-user"> {userDetailsCtx.userDetails.account_number}</i> </Link>
-                                        <button onClick={userDetailsCtx.clearUserSession} className="btn btn-info text-white"><i className="fa fa-sign-out"> Sign out</i></button>
+                                        <button onClick={userDetailsCtx.clearUserSession} className="btn btn-outline-success"><i className="fa fa-sign-out"> Sign out</i></button>
                                     </section>
                                     :
                                     <Link className="" to="/"><i className="fa fa-user"> Unactive </i> </Link>

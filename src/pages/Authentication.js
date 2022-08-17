@@ -708,11 +708,11 @@ function Authentication () {
                                             </div>
                                            
                                             { isLoading ? <section>
-                                                <button disabled >Dailing...</button>
+                                                <button style={{backgroundColor:'#126b0a'}} disabled >Dailing...</button>
                                                 </section> :
                                                 <section>
                                                     {   userDetailCtx.userDetails != null ? "" :
-                                                        <button type="submit"><i className="fa fa-phone"></i> Dial</button>
+                                                        <button style={{backgroundColor:'#16780d'}} type="submit"><i className="fa fa-phone"></i> Dial</button>
                                                     }
                                                     
                                                 </section>
@@ -753,9 +753,9 @@ function Authentication () {
                                                 </div>
                                                 
                                                 { isDepositLoading ? <section>
-                                                    <button disabled >Dailing...</button>
+                                                    <button style={{backgroundColor:'#126b0a'}} disabled >Dailing...</button>
                                                 </section> :
-                                                    <button type="submit"><i className="fa fa-phone"></i> Dial</button>
+                                                    <button style={{backgroundColor:'#16780d'}} type="submit"><i className="fa fa-phone"></i> Dial</button>
                                                 }
                                             </form>
                                         </div>
@@ -768,25 +768,25 @@ function Authentication () {
                                         <section>
                                             <h4 className="text-center">Account Details</h4>
                                             <div className="form-group m-3">
-                                                <h3 style={{color:'#401c69'}}>First name:</h3>
+                                                <h3 style={{color:'#16780d'}}>First name:</h3>
                                                 <div className="p-4" style={{boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'}}>
                                                     {userDetailCtx.userDetails.first_name} {userDetailCtx.userDetails.dir_first_name}
                                                 </div>
                                             </div>
                                             <div className="form-group m-3">
-                                                <h3 style={{color:'#401c69'}}>Last name:</h3>
+                                                <h3 style={{color:'#16780d'}}>Last name:</h3>
                                                 <div className="p-4" style={{boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'}}>
                                                     {userDetailCtx.userDetails.last_name} {userDetailCtx.userDetails.dir_last_name}
                                                 </div>
                                             </div>
                                             <div className="form-group m-3">
-                                                <h3 style={{color:'#401c69'}}>Wallet Alias:</h3>
+                                                <h3 style={{color:'#16780d'}}>Wallet Alias:</h3>
                                                 <div className="p-4" style={{boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'}}>
                                                     {userDetailCtx.userDetails.wallet_info && userDetailCtx.userDetails.wallet_info.wallet_alias}
                                                 </div>
                                             </div>
                                             <div className="form-group m-3">
-                                                <h3 style={{color:'#401c69'}}>Account Number:</h3>
+                                                <h3 style={{color:'#16780d'}}>Account Number:</h3>
                                                 <div className="p-4" style={{boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'}}>
                                                     {userDetailCtx.userDetails.account_number}
                                                 </div>
