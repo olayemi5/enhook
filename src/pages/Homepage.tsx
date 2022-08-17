@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import FooterLayout from "../components/layout/FooterLayout";
 import Authentication from "./Authentication";
 
@@ -12,8 +13,8 @@ function Homepage () {
                         <div className="banner-wrapper-content">
                         <h1>A Trusted and Secure USSD Interaction Platform</h1>
                         <form data-toggle="validator"><input type="email" className="input-newsletter"
-                            placeholder="Enter your Email or Phone" name="EMAIL" required autoComplete="off" /><button
-                            type="submit" style={{backgroundColor:'#16780d'}}>Get Started <i className="fa fa-arrow"></i></button>
+                            placeholder="Enter your Email or Phone" name="EMAIL" required autoComplete="off" />
+                            <Link to={'/agency-banking'}><button type="submit" style={{backgroundColor:'#16780d'}}>Agency <i className="fa fa-arrow"></i></button></Link>
                             <div id="validator-newsletter" className="form-result"></div>
                         </form>
                         </div>

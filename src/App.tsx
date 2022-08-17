@@ -6,6 +6,7 @@ import {
   Link
 } from "react-router-dom";
 import MainLayout from './components/layout/MainLayout';
+import Agent from './pages/Agent';
 import Authentication from './pages/Authentication';
 import Homepage from "./pages/Homepage"
 
@@ -15,7 +16,7 @@ function App() {
       <MainLayout>
           <Routes>
               <Route element={<Homepage />} path='/' />
-              <Route element={<Authentication />} path='/auth' />
+              <Route element={<Agent />} path='/agency-banking' />
           </Routes>
       </MainLayout>
     </Router>

@@ -4,16 +4,23 @@ import React from 'react'
 interface AppContext {
     userDetails: any,
     updateUserDetails: (userData: any) => void,
-    clearUserSession: () => void
+    clearUserSession: () => void,
+    clientDetails: any,
+    updateAgencyBankingCustomerDetails: (customer: any) => void
 }
 
 const AppCtx = React.createContext<AppContext | null>(null);
 
 export function UserDetailsProvider(props: any) {
-    const [userDetails, setUserDetails] = useState<any>()
+    const [userDetails, setUserDetails] = useState<any>();
+    const [agencyBankingCustomerDetails, setAgencyBankingCustomerDetails] = useState<any>()
 
     function updateUserDetailsHandler(userDetails: any) {
         setUserDetails(userDetails);
+    }
+
+    function updateAgencyBankingCustomerDetails(customerDetails: any) {
+        setAgencyBankingCustomerDetails(customerDetails);
     }
 
     function clearUserSession() {
@@ -24,7 +31,9 @@ export function UserDetailsProvider(props: any) {
     const context: AppContext = {
         userDetails: userDetails,
         updateUserDetails: updateUserDetailsHandler,
-        clearUserSession: clearUserSession
+        clearUserSession: clearUserSession,
+        updateAgencyBankingCustomerDetails: updateAgencyBankingCustomerDetails,
+        clientDetails: agencyBankingCustomerDetails
     };
 
      return (

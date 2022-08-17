@@ -35,15 +35,18 @@ function MainNavigation () {
                     <div className="others-option">
                         <div className="d-flex align-items-center">
                             <div className="option-item">
+                               <Link to={'/agency-banking'} style={{marginRight:"8px"}}> <button className="btn btn-outline-success mr-2"><i className="fa fa-book"> Agency Banking</i> </button></Link>
                                 {
                                     userDetailsCtx?.userDetails != null ?
                                     <section>
                                         <Link className="" to="/"><i className="fa fa-user"> {userDetailsCtx.userDetails.account_number}</i> </Link>
+                                        <Link to={'/agency-banking'} style={{marginRight:"8px"}}> <button className="btn btn-outline-success mr-2"><i className="fa fa-book"> Agency Banking</i> </button></Link>
                                         <button onClick={userDetailsCtx.clearUserSession} className="btn btn-outline-success"><i className="fa fa-sign-out"> Sign out</i></button>
                                     </section>
                                     :
-                                    <Link className="" to="/"><i className="fa fa-user"> Unactive </i> </Link>
+                                    <Link className="" to="/"> <i className="fa fa-user"> Unactive </i> </Link>
                                 }
+                                
                                     
                             </div>
                         </div>
