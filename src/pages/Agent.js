@@ -57,12 +57,32 @@ function Agent() {
                      if(response.isConfirmed){
                         const amount = response.value;
                         if(amount === 0 || amount === "" || amount === null || amount === undefined) {
+                            setIsLoading(false);
                             return Swal.fire('Amount value is incorrect');
                         }
 
-                        Swal.fire({
-                            icon:'success',
-                            text: `${amount} sent successfully`,
+                         const swalWithBootstrapButtonsss = Swal.mixin({
+                            customClass: {
+                                confirmButton: 'btn btn-warning text-white m-3',
+                                cancelButton: 'btn btn-danger m-3'
+                            },
+                            buttonsStyling: false
+                        })
+
+                        swalWithBootstrapButtonsss.fire({
+                            title: 'Input pin',
+                            input: 'text',
+                            inputLabel: 'Input pin',
+                            inputPlaceholder: '1234'
+                        })
+
+                        .then((response) => {
+                            if(response.isConfirmed){
+                                Swal.fire({
+                                    icon:'success',
+                                    text: `${amount} sent successfully`,
+                                })
+                            }
                         })
                      }
                 })
@@ -71,6 +91,7 @@ function Agent() {
             }
             else{
                 Swal.fire('Account associated with this phone number not found');
+                setIsLoading(false);
             }
         })
         
